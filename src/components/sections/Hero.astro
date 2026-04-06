@@ -17,23 +17,18 @@ import Icon from "../Icon.astro";
                 width="140%"
                 height="140%"
             >
-                {/* Generación de Ruido Fractal */}
                 <feTurbulence
                     type="fractalNoise"
-                    baseFrequency="0.85"
+                    baseFrequency="0.75"
                     numOctaves="4"
+                    seed="2"
                     stitchTiles="stitch"
                     result="noise"></feTurbulence>
-
-                {
-                    /* IMPORTANTE: Recortamos el ruido con la forma del logo para evitar el "recuadro" */
-                }
                 <feComposite
                     operator="in"
                     in="noise"
                     in2="SourceGraphic"
                     result="masked-noise"></feComposite>
-
                 <feColorMatrix
                     in="masked-noise"
                     type="saturate"
@@ -41,23 +36,16 @@ import Icon from "../Icon.astro";
                     result="desaturated-noise"></feColorMatrix>
                 <feComponentTransfer
                     in="desaturated-noise"
-                    result="high-contrast-noise"
+                    result="controlled-noise"
                 >
-                    <feFuncA type="linear" slope="0.5" intercept="0"></feFuncA>
+                    <!-- slope controla intensidad: 0.2 sutil, 0.5 fuerte -->
+                    <feFuncA type="linear" slope="0.28" intercept="0"></feFuncA>
                 </feComponentTransfer>
-
-                {/* Mezcla el ruido con el color del logo */}
                 <feBlend
                     in="SourceGraphic"
-                    in2="high-contrast-noise"
+                    in2="controlled-noise"
                     mode="overlay"
                     result="grained-logo"></feBlend>
-
-                {/* Efecto de Desvanecido Orgánico */}
-                <feGaussianBlur
-                    in="grained-logo"
-                    stdDeviation="0.8"
-                    result="blurred-logo"></feGaussianBlur>
             </filter>
         </defs>
     </svg>
