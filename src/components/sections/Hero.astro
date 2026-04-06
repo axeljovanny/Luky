@@ -59,21 +59,21 @@ import Icon from "../Icon.astro";
         }
         <div
             class="absolute inset-0 overflow-hidden rounded-[inherit] bg-[#f5efe9]"
-            style="mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);"
+            style="mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);"
         >
             <div
                 data-orb="0"
-                class="absolute w-[150vw] h-[150vh] bg-orange-500/50 rounded-[40%] blur-[60px] md:blur-[90px] top-[-25vh] left-[-25vw] mix-blend-multiply will-change-[transform,border-radius]"
+                class="absolute w-[220vw] h-[220vh] bg-orange-300/45 rounded-[40%] blur-[80px] md:blur-[120px] top-[-50vh] left-[-60vw] mix-blend-multiply will-change-[transform,border-radius,background-color]"
             >
             </div>
             <div
                 data-orb="1"
-                class="absolute w-[160vw] h-[160vh] bg-rose-400/50 rounded-[45%] blur-[70px] md:blur-[100px] top-[-30vh] right-[-30vw] mix-blend-multiply will-change-[transform,border-radius]"
+                class="absolute w-[210vw] h-[210vh] bg-rose-400/70 rounded-[45%] blur-[90px] md:blur-[130px] top-[-60vh] right-[-60vw] mix-blend-multiply will-change-[transform,border-radius,background-color]"
             >
             </div>
             <div
                 data-orb="2"
-                class="absolute w-[170vw] h-[170vh] bg-amber-300/50 rounded-[35%] blur-[80px] md:blur-[120px] bottom-[-35vh] left-[-25vw] mix-blend-multiply will-change-[transform,border-radius]"
+                class="absolute w-[230vw] h-[230vh] bg-amber-300/70 rounded-[35%] blur-[100px] md:blur-[150px] bottom-[-60vh] left-[-50vw] mix-blend-multiply will-change-[transform,border-radius,background-color]"
             >
             </div>
 
@@ -205,7 +205,7 @@ import Icon from "../Icon.astro";
     @keyframes color-cycle {
         0%,
         100% {
-            color: #ce6a1d;
+            color: hwb(26 21% 7%);
         } /* Naranja original */
         33% {
             color: #a74856;
@@ -228,57 +228,47 @@ import Icon from "../Icon.astro";
     const orbs = document.querySelectorAll<HTMLElement>("[data-orb]");
 
     // Cada orbe tiene su propio timeline infinito con valores orgánicos distintos
-    // Usamos rangos porcentuales (xPercent/yPercent) para que sea responsivo
     const orbConfigs = [
         {
-            // Orbe naranja
-            xRange: [-15, 20],
-            yRange: [-15, 20],
-            scaleRange: [0.5, 1.6],
-            rotRange: [-45, 45],
-            duration: [1.5, 8],
+            // Orbe naranja -> tonos variados
+            xRange: [-50, 50],
+            yRange: [-40, 40],
+            scaleRange: [0.6, 2.2],
+            duration: [1.2, 5],
         },
         {
-            // Orbe rosa
-            xRange: [-25, 15],
-            yRange: [-15, 25],
-            scaleRange: [0.6, 1.7],
-            rotRange: [-60, 60],
-            duration: [2, 10],
+            // Orbe rosa -> tonos variados
+            xRange: [-45, 55],
+            yRange: [-50, 35],
+            scaleRange: [0.7, 2.3],
+            duration: [1.5, 6],
         },
         {
-            // Orbe ámbar (amarillo)
-            xRange: [-20, 25],
-            yRange: [-30, 10],
-            scaleRange: [0.55, 1.65],
-            rotRange: [-30, 30],
-            duration: [1.8, 9],
+            // Orbe ámbar -> tonos variados
+            xRange: [-55, 45],
+            yRange: [-40, 50],
+            scaleRange: [0.65, 2.1],
+            duration: [1.3, 5.5],
         },
     ];
 
-    // Función para generar un valor aleatorio entre min y max
     function rand(min: number, max: number): number {
         return gsap.utils.random(min, max);
     }
 
-    // Crea una animación orgánica continua para cada orbe.
-    // En lugar de un loop mecánico, cada "paso" elige nuevos valores aleatorios
-    // lo que genera un movimiento que nunca se repite exactamente.
     orbs.forEach((orb, i) => {
         const cfg = orbConfigs[i];
         if (!cfg) return;
 
-        // Genera un borderRadius tipo fluido más liso
         function randomBlobRadius(): string {
-            const r = () => rand(30, 70); // Variación suave para evitar vértices picudos
+            const r = () => rand(25, 75);
             return `${r()}% ${r()}% ${r()}% ${r()}% / ${r()}% ${r()}% ${r()}% ${r()}%`;
         }
 
         function animateNext() {
-            // 65% de probabilidad de que el movimiento sea un "estallido" rápido (1.2 a 2.5 segundos)
-            // 35% de probabilidad de que sea un movimiento largo y lento
-            const isFastMovement = Math.random() < 0.65;
-            const duration = isFastMovement
+            // Alta probabilidad de "estallidos" (80%) para que sea muy explosivo
+            const isFastBurst = Math.random() < 0.8;
+            const duration = isFastBurst
                 ? rand(1.2, 2.5)
                 : rand(cfg.duration[0], cfg.duration[1]);
 
@@ -287,7 +277,7 @@ import Icon from "../Icon.astro";
                 yPercent: rand(cfg.yRange[0], cfg.yRange[1]),
                 scaleX: rand(cfg.scaleRange[0], cfg.scaleRange[1]),
                 scaleY: rand(cfg.scaleRange[0], cfg.scaleRange[1]),
-                rotation: rand(cfg.rotRange[0], cfg.rotRange[1]),
+                rotation: rand(-90, 90),
                 borderRadius: randomBlobRadius(),
                 duration: duration,
                 ease: "sine.inOut",
@@ -295,8 +285,7 @@ import Icon from "../Icon.astro";
             });
         }
 
-        // Iniciar con un pequeño delay aleatorio para que no arranquen sincronizados
-        gsap.delayedCall(rand(0, 1.5), animateNext);
+        gsap.delayedCall(rand(0, 1.2), animateNext);
     });
 
     // ─── Animaciones Flotantes para las Burbujas de Redes Sociales ───
