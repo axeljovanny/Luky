@@ -52,7 +52,7 @@ import Icon from "../Icon.astro";
 
     {/* Contenedor Principal: 90x90 en móvil, 80x80 en Web */}
     <div
-        class="relative w-[100vw] h-[100dvh] md:w-[80vw] md:h-[80dvh] rounded-[360rem] md:rounded-[4rem]"
+        class="relative w-[100vw] h-[100dvh] md:w-[84vw] md:h-[84dvh] xl:w-[88vw] xl:h-[88dvh] 2xl:w-[90vw] 2xl:h-[90dvh] rounded-[360rem] md:rounded-[4rem]"
     >
         {
             /* Capa Base: Fluido Continuo enmascarado para borrar por completo sus bordes */
@@ -93,19 +93,19 @@ import Icon from "../Icon.astro";
 
         {/* Capa UI (Cristales Interactivos) - No afectada por la máscara */}
         <div
-            class="relative z-10 w-full h-full flex flex-col items-center justify-center p-6 sm:p-12"
+            class="relative z-10 w-full h-full flex flex-col items-center justify-center p-6 sm:p-12 xl:p-16"
         >
             {/* Espacio reservado para Logo y Texto central */}
             <div
-                class="flex-1 flex flex-col items-center justify-center w-full max-w-2xl text-center"
+                class="flex-1 flex flex-col items-center justify-center w-full max-w-2xl xl:max-w-5xl 2xl:max-w-7xl text-center"
             >
-                {/* Contenedor de Capas: Logo + Texto Superpuesto */}
+                {/* Contenedor de Capas: Logo Móvil + Texto Superpuesto */}
                 <div
-                    class="relative flex items-center justify-center w-full max-w-[320px]"
+                    class="relative flex items-center justify-center w-full max-w-[320px] md:hidden"
                 >
                     <Icon
                         name="luky-logo"
-                        class="block md:hidden w-full mb-0 drop-shadow-[0_10px_25px_rgba(233,78,27,0.4)] cursor-pointer opacity-[0.93]"
+                        class="block w-full mb-0 drop-shadow-[0_10px_25px_rgba(233,78,27,0.4)] cursor-pointer opacity-[0.93]"
                         style="filter: url(#logo-grain);"
                     />
 
@@ -113,7 +113,7 @@ import Icon from "../Icon.astro";
                         /* Burbuja de Texto Estilo Consola (Superpuesta al centro) */
                     }
                     <div
-                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block md:hidden opacity-0 pointer-events-none z-30 scale-90 sm:scale-100 min-w-max"
+                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block opacity-0 pointer-events-none z-30 scale-90 sm:scale-100 min-w-max"
                         id="construction-bubble"
                     >
                         <span
@@ -124,42 +124,68 @@ import Icon from "../Icon.astro";
                     </div>
                 </div>
 
+                {/* Logo Completo para Desktop */}
+                <div
+                    class="relative hidden md:flex items-center justify-center w-full max-w-[620px] xl:max-w-[820px] 2xl:max-w-[1000px]"
+                    id="desktop-logo"
+                >
+                    <Icon
+                        name="logo-completo"
+                        class="w-full drop-shadow-[0_10px_25px_rgba(233,78,27,0.35)] cursor-pointer opacity-0"
+                        style="filter: url(#logo-grain);"
+                    />
+
+                    {
+                        /* Burbuja de Texto Desktop (Superpuesta al logo completo) */
+                    }
+                    <div
+                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 pointer-events-none z-30 min-w-max"
+                        id="construction-bubble-desktop"
+                    >
+                        <span
+                            id="typing-content-desktop"
+                            class="text-[#e94e1b] font-mono text-[1.1rem] tracking-tight whitespace-pre font-bold"
+                        ></span>
+                        <span class="console-cursor text-[#e94e1b]">|</span>
+                    </div>
+                </div>
+
                 {/* Aquí irá el glass input elástico */}
             </div>
 
-            {/* Burbuja Top Right (Instagram) */}
+            {/* Burbuja Top Right (Facebook) */}
             <a
                 href="#"
                 data-bubble="0"
-                class="glass-bubble -top-16 -right-16 w-48 h-48 sm:top-[8%] sm:right-[8%] sm:w-28 sm:h-28 text-white hover:scale-105 transition-transform"
-            >
-                <Icon
-                    name="instagram"
-                    class="w-20 h-20 sm:w-12 sm:h-12 z-10 opacity-90 drop-shadow-md"
-                />
-            </a>
-
-            {/* Burbuja Middle Left (Facebook) */}
-            <a
-                href="#"
-                data-bubble="1"
-                class="glass-bubble -left-20 top-[55%] w-48 h-48 sm:bottom-[35%] sm:top-auto sm:left-[10%] sm:w-36 sm:h-36 text-white hover:scale-105 transition-transform"
+                class="glass-bubble -top-16 -right-16 w-48 h-48 sm:top-[8%] sm:right-[8%] sm:w-28 sm:h-28 xl:w-36 xl:h-36 xl:top-[6%] xl:right-[26%] 2xl:w-44 2xl:h-44 text-white hover:scale-105 transition-transform"
             >
                 <Icon
                     name="facebook"
-                    class="w-20 h-20 sm:w-16 sm:h-16 z-10 opacity-90 drop-shadow-md"
+                    class="w-20 h-20 sm:w-12 sm:h-12 xl:w-16 xl:h-16 2xl:w-20 2xl:h-20 z-10 opacity-90 drop-shadow-md"
                 />
             </a>
 
-            {/* Burbuja Bottom Right (Behance) */}
+            {/* Burbuja Middle Left (behance) */}
             <a
                 href="#"
-                data-bubble="2"
-                class="glass-bubble -right-14 bottom-20 sm:bottom-[15%] sm:right-[15%] w-48 h-48 sm:w-44 sm:h-44 text-white hover:scale-105 transition-transform"
+                data-bubble="1"
+                class="glass-bubble -left-20 top-[55%] w-48 h-48 sm:bottom-[35%] sm:top-auto sm:left-[10%] sm:w-36 sm:h-36 xl:w-44 xl:h-44 xl:left-[24%] 2xl:w-52 2xl:h-52 text-white hover:scale-105 transition-transform"
             >
                 <Icon
                     name="behance"
-                    class="w-20 h-20 sm:w-[4.4rem] sm:h-[4.4rem] z-10 opacity-90 drop-shadow-md"
+                    class="w-20 h-20 sm:w-16 sm:h-16 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 z-10 opacity-90 drop-shadow-md"
+                />
+            </a>
+
+            {/* Burbuja Bottom Right (Instagram) */}
+            <a
+                href="#"
+                data-bubble="2"
+                class="glass-bubble -right-14 bottom-20 sm:bottom-[15%] sm:right-[15%] w-48 h-48 sm:w-44 sm:h-44 xl:w-52 xl:h-52 xl:right-[22%] 2xl:w-60 2xl:h-60 text-white hover:scale-105 transition-transform"
+            >
+                <Icon
+                    name="instagram"
+                    class="w-20 h-20 sm:w-[4.4rem] sm:h-[4.4rem] xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 z-10 opacity-90 drop-shadow-md"
                 />
             </a>
 
@@ -168,7 +194,7 @@ import Icon from "../Icon.astro";
                 class="absolute bottom-12 w-full text-center pointer-events-none"
             >
                 <p
-                    class="text-[#ee8c3c] font-montserrat font-bold text-sm sm:text-sm tracking-wide opacity-100"
+                    class="text-[#ee8c3c] font-montserrat font-bold text-sm sm:text-sm xl:text-base 2xl:text-lg tracking-wide opacity-100"
                 >
                     Diseñado por <span class="text-[#ee6a3e]">LUCKY DUCKY</span
                     >&trade;
@@ -288,34 +314,93 @@ import Icon from "../Icon.astro";
     import gsap from "gsap";
 
     // ─── Lógica de Escritura (Typing Effect) ───
-    const bubble = document.getElementById("construction-bubble");
-    const typingContent = document.getElementById("typing-content");
     const phrase = "Estamos construyendo algo increíble...";
 
-    if (bubble && typingContent) {
-        // Primero hacemos aparecer la burbuja suavemente
-        gsap.to(bubble, {
+    // Móvil
+    const bubble = document.getElementById("construction-bubble");
+    const typingContent = document.getElementById("typing-content");
+
+    // Desktop
+    const bubbleDesktop = document.getElementById(
+        "construction-bubble-desktop",
+    );
+    const typingContentDesktop = document.getElementById(
+        "typing-content-desktop",
+    );
+
+    function setupTyping(
+        bubbleEl: HTMLElement | null,
+        typingEl: HTMLElement | null,
+        delay: number,
+    ) {
+        if (!bubbleEl || !typingEl) return;
+
+        gsap.to(bubbleEl, {
             opacity: 1,
-            y: 0,
             duration: 1,
-            delay: 0.5,
-            onComplete: startTyping,
+            delay: delay,
+            onComplete: () => {
+                let i = 0;
+                const typingSpeed = 0.05;
+                const typeNext = () => {
+                    if (i < phrase.length) {
+                        typingEl.textContent += phrase[i];
+                        i++;
+                        gsap.delayedCall(typingSpeed, typeNext);
+                    }
+                };
+                typeNext();
+            },
         });
+    }
 
-        function startTyping() {
-            let i = 0;
-            const typingSpeed = 0.05; // Segundos por letra (Rápido)
+    // Activar en móvil
+    setupTyping(bubble, typingContent, 0.5);
+    // Activar en desktop (con un poco más de delay para que el logo entre primero)
+    setupTyping(bubbleDesktop, typingContentDesktop, 2);
 
-            // Usamos GSAP delayedCall para mantener sincronía y rendimiento
-            const typeNext = () => {
-                if (i < phrase.length) {
-                    typingContent!.textContent += phrase[i];
-                    i++;
-                    gsap.delayedCall(typingSpeed, typeNext);
-                }
-            };
+    // ─── Animación de Entrada del Logo Completo (Desktop) ───
+    const desktopLogo = document.getElementById("desktop-logo");
 
-            typeNext();
+    if (desktopLogo) {
+        const logoSvg = desktopLogo.querySelector("svg");
+        const topGroup = desktopLogo.querySelector(".logo-top");
+        const bottomGroup = desktopLogo.querySelector(".logo-bottom");
+
+        if (logoSvg && topGroup && bottomGroup) {
+            // Timeline de entrada secuencial
+            const tl = gsap.timeline({ delay: 0.3 });
+
+            // Fade in del SVG completo
+            tl.to(logoSvg, {
+                opacity: 0.93,
+                duration: 0.6,
+                ease: "power2.out",
+            });
+
+            // Grupo superior baja desde arriba
+            tl.from(
+                topGroup,
+                {
+                    yPercent: -18,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                },
+                "-=0.4",
+            );
+
+            // Grupo inferior sube desde abajo
+            tl.from(
+                bottomGroup,
+                {
+                    yPercent: 18,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                },
+                "-=0.8",
+            );
         }
     }
 
