@@ -1,26 +1,33 @@
 ---
+// src/layouts/Layout.astro
 import "../styles/global.css";
+import LangToggle from "../components/LangToggle.astro";
+import { getLangFromCookie } from "../i18n/utils";
+import { ui } from "../i18n/ui";
 
 interface Props {
-    title: string;
+    title?: string;
 }
 
 const { title } = Astro.props;
+
+const cookieHeader = Astro.request.headers.get("cookie");
+const lang = getLangFromCookie(cookieHeader);
+const metaTitle = title ?? ui[lang]["meta.title"];
+const metaDescription = ui[lang]["meta.description"];
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="description"
-            content="Lucky Ducky Studio - Diseño y desarrollo web creativo"
-        />
+        <meta name="description" content={metaDescription} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <title>{title}</title>
+        <title>{metaTitle}</title>
     </head>
     <body class="min-h-screen bg-[#f5efe9] overflow-x-hidden">
+        <LangToggle currentLang={lang} />
         <slot />
     </body>
 </html>

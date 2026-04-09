@@ -2,9 +2,38 @@
 // Hero.astro
 // Fondo líquido con morphing orgánico GSAP + textura de grano + burbujas glassmorphism.
 import Icon from "../Icon.astro";
+import { getLangFromCookie } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
+import { ui } from "../../i18n/ui";
+
+const cookieHeader = Astro.request.headers.get("cookie");
+const lang = getLangFromCookie(cookieHeader);
+const t = useTranslations(lang);
+
+// Textos SSR
+const typingPhrase = t("hero.typingPhrase");
+const designedBy = t("hero.designedBy");
+const brandName = t("hero.brandName");
+
+// Serializar todos los textos al cliente para el cambio dinámico
+const allTexts = JSON.stringify({
+    es: {
+        typingPhrase: ui["es"]["hero.typingPhrase"],
+        designedBy: ui["es"]["hero.designedBy"],
+        brandName: ui["es"]["hero.brandName"],
+    },
+    en: {
+        typingPhrase: ui["en"]["hero.typingPhrase"],
+        designedBy: ui["en"]["hero.designedBy"],
+        brandName: ui["en"]["hero.brandName"],
+    },
+});
 ---
 
 <section
+    id="hero-section"
+    data-phrase={typingPhrase}
+    data-texts={allTexts}
     class="relative w-full h-dvh bg-[#f5efe9] flex items-center justify-center p-0 md:p-0 overflow-hidden"
 >
     {/* SVG de Filtro Artístico (Invisible) */}
@@ -39,7 +68,8 @@ import Icon from "../Icon.astro";
                     result="controlled-noise"
                 >
                     <!-- slope controla intensidad: 0.2 sutil, 0.5 fuerte -->
-                    <feFuncA type="linear" slope="0.28" intercept="0"></feFuncA>
+                    <feFuncA type="linear" slope="0.28" intercept="0"
+                    ></feFuncA>
                 </feComponentTransfer>
                 <feBlend
                     in="SourceGraphic"
@@ -101,7 +131,7 @@ import Icon from "../Icon.astro";
             >
                 {/* Contenedor de Capas: Logo Móvil + Texto Superpuesto */}
                 <div
-                    class="relative flex items-center justify-center w-full max-w-[320px] md:hidden"
+                    class="relative flex items-center justify-center w-full max-w-[220px] xs:max-w-[270px] sm:max-w-[320px] md:hidden"
                 >
                     <Icon
                         name="luky-logo"
@@ -113,12 +143,12 @@ import Icon from "../Icon.astro";
                         /* Burbuja de Texto Estilo Consola (Superpuesta al centro) */
                     }
                     <div
-                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block opacity-0 pointer-events-none z-30 scale-90 sm:scale-100 min-w-max"
+                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block opacity-0 pointer-events-none z-30 scale-[0.65] xs:scale-75 sm:scale-100 min-w-max"
                         id="construction-bubble"
                     >
                         <span
                             id="typing-content"
-                            class="text-[#e94e1b] font-mono text-[0.95rem] sm:text-[1.05rem] tracking-tight whitespace-pre font-bold"
+                            class="text-[#e94e1b] font-mono text-[0.75rem] xs:text-[0.85rem] sm:text-[1.05rem] tracking-tight whitespace-pre font-bold"
                         ></span>
                         <span class="console-cursor text-[#e94e1b]">|</span>
                     </div>
@@ -153,15 +183,32 @@ import Icon from "../Icon.astro";
                 {/* Aquí irá el glass input elástico */}
             </div>
 
+            {/* Texto de firma */}
+            <div
+                class="absolute bottom-4 xs:bottom-6 sm:bottom-12 w-full text-center pointer-events-none"
+            >
+                <p
+                    class="text-[#ee8c3c] font-montserrat font-bold text-[0.65rem] xs:text-xs sm:text-sm xl:text-base 2xl:text-lg tracking-wide opacity-100"
+                >
+                    <span id="footer-designed-by">{designedBy}</span>
+                    {" "}
+                    <span class="text-[#ee6a3e]" id="footer-brand"
+                        >{brandName}</span
+                    >&trade;
+                </p>
+            </div>
+
+            {/* Burbujas de Redes Sociales */}
+
             {/* Burbuja Top Right (Facebook) */}
             <a
                 href="#"
                 data-bubble="0"
-                class="glass-bubble -top-16 -right-16 w-48 h-48 sm:top-[8%] sm:right-[8%] sm:w-28 sm:h-28 xl:w-36 xl:h-36 xl:top-[6%] xl:right-[26%] 2xl:w-44 2xl:h-44 text-white hover:scale-105 transition-transform"
+                class="glass-bubble -top-10 -right-10 w-28 h-28 xs:w-40 xs:h-40 xs:-top-16 xs:-right-16 sm:top-[8%] sm:right-[8%] sm:w-28 sm:h-28 xl:w-36 xl:h-36 xl:top-[6%] xl:right-[26%] 2xl:w-44 2xl:h-44 text-white hover:scale-105 transition-transform"
             >
                 <Icon
                     name="facebook"
-                    class="w-20 h-20 sm:w-12 sm:h-12 xl:w-16 xl:h-16 2xl:w-20 2xl:h-20 z-10 opacity-90 drop-shadow-md"
+                    class="w-12 h-12 xs:w-16 xs:h-16 sm:w-12 sm:h-12 xl:w-16 xl:h-16 2xl:w-20 2xl:h-20 z-10 opacity-90 drop-shadow-md"
                 />
             </a>
 
@@ -169,11 +216,11 @@ import Icon from "../Icon.astro";
             <a
                 href="#"
                 data-bubble="1"
-                class="glass-bubble -left-20 top-[55%] w-48 h-48 sm:bottom-[35%] sm:top-auto sm:left-[10%] sm:w-36 sm:h-36 xl:w-44 xl:h-44 xl:left-[24%] 2xl:w-52 2xl:h-52 text-white hover:scale-105 transition-transform"
+                class="glass-bubble -left-12 top-[52%] w-28 h-28 xs:w-44 xs:h-44 xs:-left-18 sm:bottom-[35%] sm:top-auto sm:left-[10%] sm:w-36 sm:h-36 xl:w-44 xl:h-44 xl:left-[24%] 2xl:w-52 2xl:h-52 text-white hover:scale-105 transition-transform"
             >
                 <Icon
                     name="behance"
-                    class="w-20 h-20 sm:w-16 sm:h-16 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 z-10 opacity-90 drop-shadow-md"
+                    class="w-12 h-12 xs:w-20 xs:h-20 sm:w-16 sm:h-16 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 z-10 opacity-90 drop-shadow-md"
                 />
             </a>
 
@@ -181,25 +228,13 @@ import Icon from "../Icon.astro";
             <a
                 href="#"
                 data-bubble="2"
-                class="glass-bubble -right-14 bottom-20 sm:bottom-[15%] sm:right-[15%] w-48 h-48 sm:w-44 sm:h-44 xl:w-52 xl:h-52 xl:right-[22%] 2xl:w-60 2xl:h-60 text-white hover:scale-105 transition-transform"
+                class="glass-bubble -right-8 bottom-16 w-32 h-32 xs:w-44 xs:h-44 xs:-right-14 xs:bottom-16 sm:bottom-[15%] sm:right-[15%] sm:w-44 sm:h-44 xl:w-52 xl:h-52 xl:right-[22%] 2xl:w-60 2xl:h-60 text-white hover:scale-105 transition-transform"
             >
                 <Icon
                     name="instagram"
-                    class="w-20 h-20 sm:w-[4.4rem] sm:h-[4.4rem] xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 z-10 opacity-90 drop-shadow-md"
+                    class="w-14 h-14 xs:w-20 xs:h-20 sm:w-[4.4rem] sm:h-[4.4rem] xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 z-10 opacity-90 drop-shadow-md"
                 />
             </a>
-
-            {/* Texto de firma */}
-            <div
-                class="absolute bottom-12 w-full text-center pointer-events-none"
-            >
-                <p
-                    class="text-[#ee8c3c] font-montserrat font-bold text-sm sm:text-sm xl:text-base 2xl:text-lg tracking-wide opacity-100"
-                >
-                    Diseñado por <span class="text-[#ee6a3e]">LUCKY DUCKY</span
-                    >&trade;
-                </p>
-            </div>
         </div>
     </div>
 </section>
@@ -313,8 +348,20 @@ import Icon from "../Icon.astro";
 <script>
     import gsap from "gsap";
 
+    // ─── Textos i18n disponibles en cliente ───
+    const sectionEl = document.getElementById("hero-section");
+    const TEXTS = sectionEl ? JSON.parse(sectionEl.dataset.texts || "{}") : {};
+
+    // Idioma activo: leer desde cookie
+    function getCurrentLang() {
+        const match = document.cookie.match(/(?:^|;\s*)lang=([^;]+)/);
+        const candidate = match?.[1];
+        return candidate === "es" || candidate === "en" ? candidate : "es";
+    }
+
     // ─── Lógica de Escritura (Typing Effect) ───
-    const phrase = "Estamos construyendo algo increíble...";
+    let currentPhrase = sectionEl ? sectionEl.dataset.phrase || "" : "";
+    let typingTween = null;
 
     // Móvil
     const bubble = document.getElementById("construction-bubble");
@@ -322,17 +369,13 @@ import Icon from "../Icon.astro";
 
     // Desktop
     const bubbleDesktop = document.getElementById(
-        "construction-bubble-desktop",
+        "construction-bubble-desktop"
     );
     const typingContentDesktop = document.getElementById(
-        "typing-content-desktop",
+        "typing-content-desktop"
     );
 
-    function setupTyping(
-        bubbleEl: HTMLElement | null,
-        typingEl: HTMLElement | null,
-        delay: number,
-    ) {
+    function setupTyping(bubbleEl: HTMLElement | null, typingEl: HTMLElement | null, delay: number) {
         if (!bubbleEl || !typingEl) return;
 
         gsap.to(bubbleEl, {
@@ -340,19 +383,47 @@ import Icon from "../Icon.astro";
             duration: 1,
             delay: delay,
             onComplete: () => {
-                let i = 0;
-                const typingSpeed = 0.05;
-                const typeNext = () => {
-                    if (i < phrase.length) {
-                        typingEl.textContent += phrase[i];
-                        i++;
-                        gsap.delayedCall(typingSpeed, typeNext);
-                    }
-                };
-                typeNext();
+                startTyping(typingEl);
             },
         });
     }
+
+    function startTyping(typingEl: HTMLElement | null) {
+        if (!typingEl) return;
+        typingEl.textContent = "";
+        let i = 0;
+        const typingSpeed = 0.05;
+        const phrase = currentPhrase;
+
+        const typeNext = () => {
+            if (i < phrase.length && typingEl.textContent !== undefined) {
+                // Guard: if phrase changed mid-type, stop
+                typingEl.textContent += phrase[i];
+                i++;
+                gsap.delayedCall(typingSpeed, typeNext);
+            }
+        };
+        typeNext();
+    }
+
+    // ─── Cambio de idioma dinámico ───
+    window.addEventListener("lang-change", (e) => {
+        const lang = e.detail.lang;
+        const texts = TEXTS[lang];
+        if (!texts) return;
+
+        currentPhrase = texts.typingPhrase;
+
+        // Actualizar footer
+        const footerDesignedBy = document.getElementById("footer-designed-by");
+        const footerBrand = document.getElementById("footer-brand");
+        if (footerDesignedBy) footerDesignedBy.textContent = texts.designedBy;
+        if (footerBrand) footerBrand.textContent = texts.brandName;
+
+        // Reiniciar el efecto de typing en ambas burbujas
+        if (typingContent) startTyping(typingContent);
+        if (typingContentDesktop) startTyping(typingContentDesktop);
+    });
 
     // Activar en móvil
     setupTyping(bubble, typingContent, 0.5);
@@ -387,7 +458,7 @@ import Icon from "../Icon.astro";
                     duration: 1,
                     ease: "power3.out",
                 },
-                "-=0.4",
+                "-=0.4"
             );
 
             // Grupo inferior sube desde abajo
@@ -399,13 +470,13 @@ import Icon from "../Icon.astro";
                     duration: 1,
                     ease: "power3.out",
                 },
-                "-=0.8",
+                "-=0.8"
             );
         }
     }
 
     // ─── Organic Morphing para los Orbes Líquidos ───
-    const orbs = document.querySelectorAll<HTMLElement>("[data-orb]");
+    const orbs = document.querySelectorAll("[data-orb]");
 
     // Cada orbe tiene su propio timeline infinito con valores orgánicos distintos
     const orbConfigs = [
@@ -432,7 +503,7 @@ import Icon from "../Icon.astro";
         },
     ];
 
-    function rand(min: number, max: number): number {
+    function rand(min, max) {
         return gsap.utils.random(min, max);
     }
 
@@ -440,7 +511,7 @@ import Icon from "../Icon.astro";
         const cfg = orbConfigs[i];
         if (!cfg) return;
 
-        function randomBlobRadius(): string {
+        function randomBlobRadius() {
             const r = () => rand(25, 75);
             return `${r()}% ${r()}% ${r()}% ${r()}% / ${r()}% ${r()}% ${r()}% ${r()}%`;
         }
@@ -469,7 +540,7 @@ import Icon from "../Icon.astro";
     });
 
     // ─── Animaciones Flotantes para las Burbujas de Redes Sociales ───
-    const bubbles = document.querySelectorAll<HTMLElement>("[data-bubble]");
+    const bubbles = document.querySelectorAll("[data-bubble]");
 
     bubbles.forEach((bubble, i) => {
         // Flotación sinusoidal continua

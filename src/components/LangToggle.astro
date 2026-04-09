@@ -1,0 +1,147 @@
+---
+// src/components/LangToggle.astro
+// ─── Botón flotante para cambiar ES ↔ EN ───
+import { ui, defaultLang, type Lang } from "../i18n/ui";
+
+interface Props {
+    currentLang: Lang;
+}
+
+const { currentLang } = Astro.props;
+const nextLang: Lang = currentLang === "es" ? "en" : "es";
+const label = ui[currentLang]["lang.label"];
+const toggleText = ui[currentLang]["lang.toggle"];
+---
+
+<button
+    id="lang-toggle-btn"
+    aria-label={label}
+    title={label}
+    data-next-lang={nextLang}
+    class="lang-toggle"
+>
+    <span class="lang-toggle__globe" aria-hidden="true">
+        <!-- Globe icon inline SVG -->
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            width="18"
+            height="18"
+        >
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+            <path d="M2 12h20"></path>
+        </svg>
+    </span>
+    <span class="lang-toggle__label" id="lang-label">{toggleText}</span>
+</button>
+
+<style>
+    .lang-toggle {
+        position: fixed;
+        top: 1.25rem;
+        left: 1.25rem;
+        z-index: 9999;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 1rem 0.45rem 0.75rem;
+        border-radius: 9999px;
+
+        /* Glassmorphism */
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1.5px solid rgba(255, 255, 255, 0.6);
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.1),
+            inset 0 2px 6px rgba(255, 255, 255, 0.75);
+
+        cursor: pointer;
+        color: #b84a20;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition:
+            transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+
+        /* Prevent text select on click */
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .lang-toggle:hover {
+        transform: scale(1.07) translateY(-1px);
+        background: rgba(255, 255, 255, 0.55);
+        box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.12),
+            inset 0 2px 8px rgba(255, 255, 255, 0.9);
+    }
+
+    .lang-toggle:active {
+        transform: scale(0.97);
+    }
+
+    .lang-toggle__globe {
+        display: flex;
+        align-items: center;
+        opacity: 0.85;
+    }
+
+    .lang-toggle__label {
+        transition: opacity 0.15s ease;
+    }
+
+    /* Animación de cambio de texto */
+    .lang-toggle__label.switching {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+</style>
+
+<script>
+    const btn = document.getElementById("lang-toggle-btn");
+    const labelEl = document.getElementById("lang-label");
+
+    if (btn && labelEl) {
+        btn.addEventListener("click", () => {
+            const nextLang = btn.dataset.nextLang as "es" | "en";
+
+            // Animación de salida
+            labelEl.classList.add("switching");
+
+            setTimeout(() => {
+                // Guardar preferencia en cookie (1 año)
+                document.cookie = `lang=${nextLang};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
+
+                // Disparar evento global para que Hero actualice sus textos
+                window.dispatchEvent(
+                    new CustomEvent("lang-change", { detail: { lang: nextLang } })
+                );
+
+                // Actualizar el botón
+                const currentLabel =
+                    nextLang === "en"
+                        ? { toggle: "ES", title: "Switch language" }
+                        : { toggle: "EN", title: "Cambiar idioma" };
+
+                labelEl.textContent = currentLabel.toggle;
+                btn.setAttribute("aria-label", currentLabel.title);
+                btn.setAttribute("title", currentLabel.title);
+                btn.dataset.nextLang = nextLang === "en" ? "es" : "en";
+
+                labelEl.classList.remove("switching");
+            }, 150);
+        });
+    }
+</script>

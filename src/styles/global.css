@@ -6,4 +6,7 @@
   --font-montserrat: "Montserrat", sans-serif;
   --font-lato: "Lato", sans-serif;
   --font-garamond: "EB Garamond", serif;
+
+  /* Breakpoint extra small para teléfonos medianos (iPhone SE, 13 mini) */
+  --breakpoint-xs: 390px;
 }
