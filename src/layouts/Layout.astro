@@ -2,6 +2,7 @@
 // src/layouts/Layout.astro
 import "../styles/global.css";
 import LangToggle from "../components/LangToggle.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import { getLangFromCookie } from "../i18n/utils";
 import { ui } from "../i18n/ui";
 
@@ -25,9 +26,22 @@ const metaDescription = ui[lang]["meta.description"];
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <title>{metaTitle}</title>
+        
+        {/* Inline script to prevent Flash of Unstyled Content (FOUC) when loading the page */}
+        <script is:inline>
+            if (
+                localStorage.getItem("theme") === "dark" ||
+                (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        </script>
     </head>
-    <body class="min-h-screen bg-[#f5efe9] overflow-x-hidden">
+    <body class="min-h-screen bg-[var(--color-bg)] overflow-x-hidden text-[var(--color-brand-primary)]">
         <LangToggle currentLang={lang} />
+        <ThemeToggle />
         <slot />
     </body>
 </html>

@@ -34,7 +34,7 @@ const allTexts = JSON.stringify({
     id="hero-section"
     data-phrase={typingPhrase}
     data-texts={allTexts}
-    class="relative w-full h-dvh bg-[#f5efe9] flex items-center justify-center p-0 md:p-0 overflow-hidden"
+    class="relative w-full h-dvh bg-[var(--color-bg)] flex items-center justify-center p-0 md:p-0 overflow-hidden"
 >
     {/* SVG de Filtro Artístico (Invisible) */}
     <svg class="absolute w-0 h-0 invisible" aria-hidden="true">
@@ -49,7 +49,7 @@ const allTexts = JSON.stringify({
                 <feTurbulence
                     type="fractalNoise"
                     baseFrequency="0.75"
-                    numOctaves="4"
+                    numOctaves="2"
                     seed="2"
                     stitchTiles="stitch"
                     result="noise"></feTurbulence>
@@ -80,46 +80,44 @@ const allTexts = JSON.stringify({
         </defs>
     </svg>
 
-    {/* Contenedor Principal: 90x90 en móvil, 80x80 en Web */}
+    {/* Fondo Pantalla Completa: Fluido Continuo que abarca el 100% de la ventana */}
     <div
-        class="relative w-[100vw] h-[100dvh] md:w-[84vw] md:h-[84dvh] xl:w-[88vw] xl:h-[88dvh] 2xl:w-[90vw] 2xl:h-[90dvh] rounded-[360rem] md:rounded-[4rem]"
+        class="absolute inset-0 overflow-hidden bg-[var(--color-bg)]"
     >
-        {
-            /* Capa Base: Fluido Continuo enmascarado para borrar por completo sus bordes */
-        }
         <div
-            class="absolute inset-0 overflow-hidden rounded-[inherit] bg-[#f5efe9]"
-            style="mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);"
+            data-orb="0"
+            class="absolute w-[80vw] h-[80vh] md:w-[60vw] md:h-[60vh] bg-[var(--color-orb-1)] rounded-[40%] blur-[60px] md:blur-[80px] top-1/2 left-1/2 -ml-[40vw] -mt-[40vh] md:-ml-[30vw] md:-mt-[30vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
         >
-            <div
-                data-orb="0"
-                class="absolute w-[220vw] h-[220vh] bg-orange-300/45 rounded-[40%] blur-[80px] md:blur-[120px] top-[-50vh] left-[-60vw] mix-blend-multiply will-change-[transform,border-radius,background-color]"
-            >
-            </div>
-            <div
-                data-orb="1"
-                class="absolute w-[210vw] h-[210vh] bg-rose-400/70 rounded-[45%] blur-[90px] md:blur-[130px] top-[-60vh] right-[-60vw] mix-blend-multiply will-change-[transform,border-radius,background-color]"
-            >
-            </div>
-            <div
-                data-orb="2"
-                class="absolute w-[230vw] h-[230vh] bg-amber-300/70 rounded-[35%] blur-[100px] md:blur-[150px] bottom-[-60vh] left-[-50vw] mix-blend-multiply will-change-[transform,border-radius,background-color]"
-            >
-            </div>
-
-            {/* Capa de Textura / Ruido SVG en linea */}
-            <div
-                class="absolute inset-0 z-0 opacity-100 mix-blend-overlay pointer-events-none"
-                style={`background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");`}
-            >
-            </div>
-
-            {/* Soporte de difuminado interno (Viñeta suave) */}
-            <div
-                class="absolute inset-0 z-0 pointer-events-none shadow-[inset_0_0_80px_40px_#f5efe9] md:shadow-[inset_0_0_150px_80px_#f5efe9]"
-            >
-            </div>
         </div>
+        <div
+            data-orb="1"
+            class="absolute w-[70vw] h-[70vh] md:w-[50vw] md:h-[50vh] bg-[var(--color-orb-2)] rounded-[45%] blur-[70px] md:blur-[100px] top-1/2 left-1/2 -ml-[35vw] -mt-[35vh] md:-ml-[25vw] md:-mt-[25vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
+        >
+        </div>
+        <div
+            data-orb="2"
+            class="absolute w-[90vw] h-[90vh] md:w-[70vw] md:h-[70vh] bg-[var(--color-orb-3)] rounded-[35%] blur-[80px] md:blur-[120px] top-1/2 left-1/2 -ml-[45vw] -mt-[45vh] md:-ml-[35vw] md:-mt-[35vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
+        >
+        </div>
+
+        {/* Capa de Textura / Ruido SVG en linea */}
+        <div
+            class="absolute inset-0 z-0 opacity-100 mix-blend-overlay pointer-events-none"
+            style={`background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");`}
+        >
+        </div>
+
+        {/* Soporte de difuminado interno (Viñeta suave adaptativa al tema) para que se mezclen con el borde */}
+        <div
+            class="absolute inset-0 z-0 pointer-events-none shadow-[inset_0_0_80px_40px_var(--color-bg)] md:shadow-[inset_0_0_150px_80px_var(--color-bg)]"
+        >
+        </div>
+    </div>
+
+    {/* Contenedor Secundario UI: 90x90 en móvil, 80x80 en Web. Limita y enmarca las burbujas flotantes */}
+    <div
+        class="relative mx-auto w-[100vw] h-[100dvh] md:w-[84vw] md:h-[84dvh] xl:w-[88vw] xl:h-[88dvh] 2xl:w-[90vw] 2xl:h-[90dvh]"
+    >
 
         {/* Capa UI (Cristales Interactivos) - No afectada por la máscara */}
         <div
@@ -143,14 +141,14 @@ const allTexts = JSON.stringify({
                         /* Burbuja de Texto Estilo Consola (Superpuesta al centro) */
                     }
                     <div
-                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block opacity-0 pointer-events-none z-30 scale-[0.65] xs:scale-75 sm:scale-100 min-w-max"
+                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block opacity-0 pointer-events-none z-30 scale-[0.65] xs:scale-75 sm:scale-100 w-max max-w-[150%] sm:max-w-max text-center"
                         id="construction-bubble"
                     >
                         <span
                             id="typing-content"
-                            class="text-[#e94e1b] font-mono text-[0.75rem] xs:text-[0.85rem] sm:text-[1.05rem] tracking-tight whitespace-pre font-bold"
+                            class="text-[var(--color-brand-primary)] transition-colors duration-400 font-mono text-[0.75rem] xs:text-[0.85rem] sm:text-[1.05rem] tracking-tight whitespace-break-spaces text-center font-bold"
                         ></span>
-                        <span class="console-cursor text-[#e94e1b]">|</span>
+                        <span class="console-cursor text-[var(--color-brand-primary)] transition-colors duration-400">|</span>
                     </div>
                 </div>
 
@@ -174,9 +172,9 @@ const allTexts = JSON.stringify({
                     >
                         <span
                             id="typing-content-desktop"
-                            class="text-[#e94e1b] font-mono text-[1.1rem] tracking-tight whitespace-pre font-bold"
+                            class="text-[var(--color-brand-primary)] transition-colors duration-400 font-mono text-[1.1rem] tracking-tight whitespace-pre font-bold"
                         ></span>
-                        <span class="console-cursor text-[#e94e1b]">|</span>
+                        <span class="console-cursor text-[var(--color-brand-primary)] transition-colors duration-400">|</span>
                     </div>
                 </div>
 
@@ -188,11 +186,11 @@ const allTexts = JSON.stringify({
                 class="absolute bottom-4 xs:bottom-6 sm:bottom-12 w-full text-center pointer-events-none"
             >
                 <p
-                    class="text-[#ee8c3c] font-montserrat font-bold text-[0.65rem] xs:text-xs sm:text-sm xl:text-base 2xl:text-lg tracking-wide opacity-100"
+                    class="text-[var(--color-brand-secondary)] transition-colors duration-400 font-montserrat font-bold text-[0.65rem] xs:text-xs sm:text-sm xl:text-base 2xl:text-lg tracking-wide opacity-100"
                 >
                     <span id="footer-designed-by">{designedBy}</span>
                     {" "}
-                    <span class="text-[#ee6a3e]" id="footer-brand"
+                    <span class="text-[var(--color-brand-accent)] transition-colors duration-400" id="footer-brand"
                         >{brandName}</span
                     >&trade;
                 </p>
@@ -271,6 +269,7 @@ const allTexts = JSON.stringify({
         justify-content: center;
         overflow: hidden;
         z-index: 20;
+        transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     /* Reflejo esférico de luz directa tipo foco (glare) en la parte superior */
@@ -289,24 +288,44 @@ const allTexts = JSON.stringify({
             rgba(255, 255, 255, 0) 65%
         );
         pointer-events: none;
+        transition: background 0.4s ease;
+    }
+
+    /* Adaptación del burbuja a Modo Oscuro */
+    :global(.dark) .glass-bubble {
+        background: linear-gradient(135deg, rgba(10, 10, 10, 0.75) 0%, rgba(25, 25, 25, 0.35) 100%);
+        border: 1.5px solid rgba(255, 255, 255, 0.04);
+        box-shadow:
+            0 25px 45px -10px rgba(0, 0, 0, 0.8),
+            inset 0 4px 12px 1px rgba(255, 255, 255, 0.04),
+            inset 0 -8px 20px 0 rgba(0, 0, 0, 0.8),
+            inset 0 0 15px -3px rgba(0, 0, 0, 0.5);
+    }
+    
+    :global(.dark) .glass-bubble::before {
+        background: radial-gradient(
+            ellipse at top,
+            rgba(255, 255, 255, 0.04) 0%,
+            rgba(255, 255, 255, 0) 65%
+        );
     }
 
     /* Animación de Ciclo de Color para el Logo */
     @keyframes color-cycle {
         0%,
         100% {
-            color: hwb(26 21% 7%);
-        } /* Naranja original */
+            color: var(--color-brand-primary);
+        } /* Principal */
         33% {
-            color: #a74856;
-        } /* Rosa (Rose 400) */
+            color: var(--color-brand-secondary);
+        } /* Secundario */
         66% {
-            color: #e0d3a5;
-        } /* Ámbar (Amber 300) */
+            color: var(--color-brand-accent);
+        } /* Acento */
     }
 
     .animate-color-cycle {
-        color: #ff882e; /* Fallback de seguridad */
+        color: var(--color-brand-primary); /* Fallback de seguridad */
         animation: color-cycle 60s infinite ease-in-out;
     }
 
@@ -324,6 +343,15 @@ const allTexts = JSON.stringify({
             0 8px 32px 0 rgba(0, 0, 0, 0.15),
             inset 0 0 10px rgba(255, 255, 255, 0.1);
         margin-top: -1rem;
+        transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    :global(.dark) .glass-bubble-alt {
+        background: rgba(10, 10, 10, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        box-shadow:
+            0 8px 32px 0 rgba(0, 0, 0, 0.6),
+            inset 0 0 10px rgba(0, 0, 0, 0.5);
     }
 
     .console-cursor {
@@ -388,14 +416,23 @@ const allTexts = JSON.stringify({
         });
     }
 
+    // Generación actual para abortar animaciones de typing obsoletas
+    let typingGeneration = 0;
+
     function startTyping(typingEl: HTMLElement | null) {
         if (!typingEl) return;
+        
+        // Aumentar la generación de esta llamada para invalidar corridas anteriores
+        typingGeneration++;
+        const currentGen = typingGeneration;
+        
         typingEl.textContent = "";
         let i = 0;
         const typingSpeed = 0.05;
         const phrase = currentPhrase;
 
         const typeNext = () => {
+            if (currentGen !== typingGeneration) return; // Si cambió la generación o idioma rápio, abortar.
             if (i < phrase.length && typingEl.textContent !== undefined) {
                 // Guard: if phrase changed mid-type, stop
                 typingEl.textContent += phrase[i];
@@ -407,7 +444,7 @@ const allTexts = JSON.stringify({
     }
 
     // ─── Cambio de idioma dinámico ───
-    window.addEventListener("lang-change", (e) => {
+    window.addEventListener("lang-change", ((e: CustomEvent) => {
         const lang = e.detail.lang;
         const texts = TEXTS[lang];
         if (!texts) return;
@@ -423,7 +460,7 @@ const allTexts = JSON.stringify({
         // Reiniciar el efecto de typing en ambas burbujas
         if (typingContent) startTyping(typingContent);
         if (typingContentDesktop) startTyping(typingContentDesktop);
-    });
+    }) as EventListener);
 
     // Activar en móvil
     setupTyping(bubble, typingContent, 0.5);
@@ -503,18 +540,58 @@ const allTexts = JSON.stringify({
         },
     ];
 
-    function rand(min, max) {
+    function rand(min: number, max: number) {
         return gsap.utils.random(min, max);
     }
+
+    let isMouseFollowing = false;
+
+    // Trackers interactivos para los 3 orbes con diferentes roles físicos
+    const mouseTrackers = Array.from(orbs).map((orb, i) => {
+        // Duraciones: Orb 0 rápido (cazador), Orb 1 ágil oscuro (huye), Orb 2 muy pesado/lento (desfasado)
+        const durations = [0.8, 1.2, 4.5]; 
+        return {
+            xTo: gsap.quickTo(orb, "x", {duration: durations[i] || 2, ease: "power3.out"}),
+            yTo: gsap.quickTo(orb, "y", {duration: durations[i] || 2, ease: "power3.out"})
+        };
+    });
+
+    document.documentElement.addEventListener("mousemove", (e) => {
+        isMouseFollowing = true;
+        const dx = e.clientX - window.innerWidth / 2;
+        const dy = e.clientY - window.innerHeight / 2;
+
+        // Orb 0 sigue al ratón casi perfectamente
+        if (mouseTrackers[0]) {
+            mouseTrackers[0].xTo(dx);
+            mouseTrackers[0].yTo(dy);
+        }
+        
+        // Orb 1 huye (repele) y se aleja en dirección opuesta
+        if (mouseTrackers[1]) {
+            mouseTrackers[1].xTo(-dx * 1.5);
+            mouseTrackers[1].yTo(-dy * 1.5);
+        }
+
+        // Orb 2 se "desfasa", siguiendo muy perezosamente y limitando su distancia al 40% del área
+        if (mouseTrackers[2]) {
+            mouseTrackers[2].xTo(dx * 0.4);
+            mouseTrackers[2].yTo(dy * 0.4);
+        }
+    });
+
+    document.documentElement.addEventListener("mouseleave", () => {
+        isMouseFollowing = false;
+        // Cuando no hay cursor, las regresamos al "centro de su caja de vagancia"
+        mouseTrackers.forEach(tracker => {
+            tracker.xTo(0);
+            tracker.yTo(0);
+        });
+    });
 
     orbs.forEach((orb, i) => {
         const cfg = orbConfigs[i];
         if (!cfg) return;
-
-        function randomBlobRadius() {
-            const r = () => rand(25, 75);
-            return `${r()}% ${r()}% ${r()}% ${r()}% / ${r()}% ${r()}% ${r()}% ${r()}%`;
-        }
 
         function animateNext() {
             // Alta probabilidad de "estallidos" (80%) para que sea muy explosivo
@@ -523,17 +600,25 @@ const allTexts = JSON.stringify({
                 ? rand(1.2, 2.5)
                 : rand(cfg.duration[0], cfg.duration[1]);
 
-            gsap.to(orb, {
-                xPercent: rand(cfg.xRange[0], cfg.xRange[1]),
-                yPercent: rand(cfg.yRange[0], cfg.yRange[1]),
+            let gsapConfig: any = {
                 scaleX: rand(cfg.scaleRange[0], cfg.scaleRange[1]),
                 scaleY: rand(cfg.scaleRange[0], cfg.scaleRange[1]),
                 rotation: rand(-90, 90),
-                borderRadius: randomBlobRadius(),
                 duration: duration,
                 ease: "sine.inOut",
                 onComplete: animateNext,
-            });
+            };
+
+            // Lógica combinada: si está el ratón, dejamos que quickTo manipule `x` y matamos fluidamente `xPercent`
+            if (!isMouseFollowing) {
+                gsapConfig.xPercent = rand(cfg.xRange[0], cfg.xRange[1]);
+                gsapConfig.yPercent = rand(cfg.yRange[0], cfg.yRange[1]);
+            } else {
+                gsapConfig.xPercent = 0;
+                gsapConfig.yPercent = 0;
+            }
+
+            gsap.to(orb, gsapConfig);
         }
 
         gsap.delayedCall(rand(0, 1.2), animateNext);

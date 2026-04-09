@@ -1,6 +1,5 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&family=EB+Garamond:wght@400;700&display=swap');
+@import "tailwindcss";
 
 @theme {
   --font-montserrat: "Montserrat", sans-serif;
@@ -9,4 +8,50 @@
 
   /* Breakpoint extra small para teléfonos medianos (iPhone SE, 13 mini) */
   --breakpoint-xs: 390px;
-}
+}
+
+@layer base {
+  :root {
+    --color-bg: #f5efe9;
+    --color-vignette: #f5efe9;
+
+    /* Textos (Naranja en Claro) */
+    --color-brand-primary: #e94e1b;
+    --color-brand-secondary: #ee8c3c;
+    --color-brand-accent: #ee6a3e;
+
+    /* Orbes (Colores Cálidos) */
+    --color-orb-1: rgba(253, 186, 116, 0.45);
+    /* Orange 300 */
+    --color-orb-2: rgba(251, 113, 133, 0.70);
+    /* Rose 400 */
+    --color-orb-3: rgba(252, 211, 77, 0.70);
+    /* Amber 300 */
+
+    --orb-blend-mode: multiply;
+  }
+
+  :root.dark {
+    --color-bg: #0f0f0f;
+    --color-vignette: #0f0f0f;
+
+    /* Textos (Azul en Oscuro) */
+    --color-brand-primary: #40f4b8;
+    /* Blue 500 */
+    --color-brand-secondary: #60a5fa;
+    /* Blue 400 */
+    --color-brand-accent: #2563eb;
+    /* Blue 600 */
+
+    /* Orbes (Azules / Violetas para el modo oscuro) */
+    --color-orb-1: rgba(53, 82, 129, 0.869);
+    /* Blue 500 */
+    --color-orb-2: rgba(43, 128, 143, 0.5);
+    /* Cyan 500 */
+    --color-orb-3: rgba(65, 66, 152, 0.5);
+    /* Indigo 500 */
+
+    --orb-blend-mode: screen;
+  }
+
+}
