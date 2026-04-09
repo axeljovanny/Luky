@@ -2,18 +2,15 @@
 // Hero.astro
 // Fondo líquido con morphing orgánico GSAP + textura de grano + burbujas glassmorphism.
 import Icon from "../Icon.astro";
-import { getLangFromCookie } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/utils";
 import { ui } from "../../i18n/ui";
 
-const cookieHeader = Astro.request.headers.get("cookie");
-const lang = getLangFromCookie(cookieHeader);
-const t = useTranslations(lang);
+// SSG: Asumimos por defecto 'es' en el servidor estático
+const lang = "es";
 
-// Textos SSR
-const typingPhrase = t("hero.typingPhrase");
-const designedBy = t("hero.designedBy");
-const brandName = t("hero.brandName");
+// Textos SSR (Pre-compilados en español, el DOM luego cambia dinámicamente)
+const typingPhrase = ui[lang]["hero.typingPhrase"];
+const designedBy = ui[lang]["hero.designedBy"];
+const brandName = ui[lang]["hero.brandName"];
 
 // Serializar todos los textos al cliente para el cambio dinámico
 const allTexts = JSON.stringify({
@@ -68,8 +65,7 @@ const allTexts = JSON.stringify({
                     result="controlled-noise"
                 >
                     <!-- slope controla intensidad: 0.2 sutil, 0.5 fuerte -->
-                    <feFuncA type="linear" slope="0.28" intercept="0"
-                    ></feFuncA>
+                    <feFuncA type="linear" slope="0.28" intercept="0"></feFuncA>
                 </feComponentTransfer>
                 <feBlend
                     in="SourceGraphic"
@@ -80,10 +76,10 @@ const allTexts = JSON.stringify({
         </defs>
     </svg>
 
-    {/* Fondo Pantalla Completa: Fluido Continuo que abarca el 100% de la ventana */}
-    <div
-        class="absolute inset-0 overflow-hidden bg-[var(--color-bg)]"
-    >
+    {
+        /* Fondo Pantalla Completa: Fluido Continuo que abarca el 100% de la ventana */
+    }
+    <div class="absolute inset-0 overflow-hidden bg-[var(--color-bg)]">
         <div
             data-orb="0"
             class="absolute w-[80vw] h-[80vh] md:w-[60vw] md:h-[60vh] bg-[var(--color-orb-1)] rounded-[40%] blur-[60px] md:blur-[80px] top-1/2 left-1/2 -ml-[40vw] -mt-[40vh] md:-ml-[30vw] md:-mt-[30vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
@@ -107,18 +103,21 @@ const allTexts = JSON.stringify({
         >
         </div>
 
-        {/* Soporte de difuminado interno (Viñeta suave adaptativa al tema) para que se mezclen con el borde */}
+        {
+            /* Soporte de difuminado interno (Viñeta suave adaptativa al tema) para que se mezclen con el borde */
+        }
         <div
             class="absolute inset-0 z-0 pointer-events-none shadow-[inset_0_0_80px_40px_var(--color-bg)] md:shadow-[inset_0_0_150px_80px_var(--color-bg)]"
         >
         </div>
     </div>
 
-    {/* Contenedor Secundario UI: 90x90 en móvil, 80x80 en Web. Limita y enmarca las burbujas flotantes */}
+    {
+        /* Contenedor Secundario UI: 90x90 en móvil, 80x80 en Web. Limita y enmarca las burbujas flotantes */
+    }
     <div
         class="relative mx-auto w-[100vw] h-[100dvh] md:w-[84vw] md:h-[84dvh] xl:w-[88vw] xl:h-[88dvh] 2xl:w-[90vw] 2xl:h-[90dvh]"
     >
-
         {/* Capa UI (Cristales Interactivos) - No afectada por la máscara */}
         <div
             class="relative z-10 w-full h-full flex flex-col items-center justify-center p-6 sm:p-12 xl:p-16"
@@ -141,14 +140,17 @@ const allTexts = JSON.stringify({
                         /* Burbuja de Texto Estilo Consola (Superpuesta al centro) */
                     }
                     <div
-                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 block opacity-0 pointer-events-none z-30 scale-[0.65] xs:scale-75 sm:scale-100 w-max max-w-[150%] sm:max-w-max text-center"
+                        class="glass-bubble-alt absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-0 pointer-events-none z-30 scale-[0.65] xs:scale-75 sm:scale-100 min-w-max"
                         id="construction-bubble"
                     >
                         <span
                             id="typing-content"
-                            class="text-[var(--color-brand-primary)] transition-colors duration-400 font-mono text-[0.75rem] xs:text-[0.85rem] sm:text-[1.05rem] tracking-tight whitespace-break-spaces text-center font-bold"
+                            class="text-[var(--color-brand-primary)] transition-colors duration-400 font-mono text-[0.75rem] xs:text-[0.85rem] sm:text-[1.05rem] tracking-tight whitespace-pre font-bold"
                         ></span>
-                        <span class="console-cursor text-[var(--color-brand-primary)] transition-colors duration-400">|</span>
+                        <span
+                            class="console-cursor text-[var(--color-brand-primary)] transition-colors duration-400"
+                            >|</span
+                        >
                     </div>
                 </div>
 
@@ -174,7 +176,10 @@ const allTexts = JSON.stringify({
                             id="typing-content-desktop"
                             class="text-[var(--color-brand-primary)] transition-colors duration-400 font-mono text-[1.1rem] tracking-tight whitespace-pre font-bold"
                         ></span>
-                        <span class="console-cursor text-[var(--color-brand-primary)] transition-colors duration-400">|</span>
+                        <span
+                            class="console-cursor text-[var(--color-brand-primary)] transition-colors duration-400"
+                            >|</span
+                        >
                     </div>
                 </div>
 
@@ -190,8 +195,9 @@ const allTexts = JSON.stringify({
                 >
                     <span id="footer-designed-by">{designedBy}</span>
                     {" "}
-                    <span class="text-[var(--color-brand-accent)] transition-colors duration-400" id="footer-brand"
-                        >{brandName}</span
+                    <span
+                        class="text-[var(--color-brand-accent)] transition-colors duration-400"
+                        id="footer-brand">{brandName}</span
                     >&trade;
                 </p>
             </div>
@@ -201,8 +207,9 @@ const allTexts = JSON.stringify({
             {/* Burbuja Top Right (Facebook) */}
             <a
                 href="#"
+                aria-label="Perfil de Facebook"
                 data-bubble="0"
-                class="glass-bubble -top-10 -right-10 w-28 h-28 xs:w-40 xs:h-40 xs:-top-16 xs:-right-16 sm:top-[8%] sm:right-[8%] sm:w-28 sm:h-28 xl:w-36 xl:h-36 xl:top-[6%] xl:right-[26%] 2xl:w-44 2xl:h-44 text-white hover:scale-105 transition-transform"
+                class="glass-bubble top-20 -right-10 w-28 h-28 xs:w-40 xs:h-40 xs:top-20 xs:-right-16 sm:top-[8%] sm:right-[8%] sm:w-28 sm:h-28 xl:w-36 xl:h-36 xl:top-[6%] xl:right-[26%] 2xl:w-44 2xl:h-44 hover:scale-105 transition-all duration-400"
             >
                 <Icon
                     name="facebook"
@@ -213,8 +220,9 @@ const allTexts = JSON.stringify({
             {/* Burbuja Middle Left (behance) */}
             <a
                 href="#"
+                aria-label="Portafolio de Behance"
                 data-bubble="1"
-                class="glass-bubble -left-12 top-[52%] w-28 h-28 xs:w-44 xs:h-44 xs:-left-18 sm:bottom-[35%] sm:top-auto sm:left-[10%] sm:w-36 sm:h-36 xl:w-44 xl:h-44 xl:left-[24%] 2xl:w-52 2xl:h-52 text-white hover:scale-105 transition-transform"
+                class="glass-bubble -left-12 top-[52%] w-28 h-28 xs:w-44 xs:h-44 xs:-left-18 sm:bottom-[35%] sm:top-auto sm:left-[10%] sm:w-36 sm:h-36 xl:w-44 xl:h-44 xl:left-[24%] 2xl:w-52 2xl:h-52 hover:scale-105 transition-all duration-400"
             >
                 <Icon
                     name="behance"
@@ -225,8 +233,9 @@ const allTexts = JSON.stringify({
             {/* Burbuja Bottom Right (Instagram) */}
             <a
                 href="#"
+                aria-label="Perfil de Instagram"
                 data-bubble="2"
-                class="glass-bubble -right-8 bottom-16 w-32 h-32 xs:w-44 xs:h-44 xs:-right-14 xs:bottom-16 sm:bottom-[15%] sm:right-[15%] sm:w-44 sm:h-44 xl:w-52 xl:h-52 xl:right-[22%] 2xl:w-60 2xl:h-60 text-white hover:scale-105 transition-transform"
+                class="glass-bubble -right-8 bottom-16 w-32 h-32 xs:w-44 xs:h-44 xs:-right-14 xs:bottom-16 sm:bottom-[15%] sm:right-[15%] sm:w-44 sm:h-44 xl:w-52 xl:h-52 xl:right-[22%] 2xl:w-60 2xl:h-60 hover:scale-105 transition-all duration-400"
             >
                 <Icon
                     name="instagram"
@@ -269,7 +278,13 @@ const allTexts = JSON.stringify({
         justify-content: center;
         overflow: hidden;
         z-index: 20;
-        transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition:
+            background 0.4s ease,
+            border-color 0.4s ease,
+            box-shadow 0.4s ease,
+            color 0.4s ease,
+            transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        color: #ffffff;
     }
 
     /* Reflejo esférico de luz directa tipo foco (glare) en la parte superior */
@@ -292,17 +307,22 @@ const allTexts = JSON.stringify({
     }
 
     /* Adaptación del burbuja a Modo Oscuro */
-    :global(.dark) .glass-bubble {
-        background: linear-gradient(135deg, rgba(10, 10, 10, 0.75) 0%, rgba(25, 25, 25, 0.35) 100%);
+    .dark .glass-bubble {
+        background: linear-gradient(
+            135deg,
+            rgba(10, 10, 10, 0.75) 0%,
+            rgba(25, 25, 25, 0.35) 100%
+        );
         border: 1.5px solid rgba(255, 255, 255, 0.04);
         box-shadow:
             0 25px 45px -10px rgba(0, 0, 0, 0.8),
             inset 0 4px 12px 1px rgba(255, 255, 255, 0.04),
             inset 0 -8px 20px 0 rgba(0, 0, 0, 0.8),
             inset 0 0 15px -3px rgba(0, 0, 0, 0.5);
+        color: #000000;
     }
-    
-    :global(.dark) .glass-bubble::before {
+
+    .dark .glass-bubble::before {
         background: radial-gradient(
             ellipse at top,
             rgba(255, 255, 255, 0.04) 0%,
@@ -343,10 +363,13 @@ const allTexts = JSON.stringify({
             0 8px 32px 0 rgba(0, 0, 0, 0.15),
             inset 0 0 10px rgba(255, 255, 255, 0.1);
         margin-top: -1rem;
-        transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        transition:
+            background 0.4s ease,
+            border-color 0.4s ease,
+            box-shadow 0.4s ease;
     }
 
-    :global(.dark) .glass-bubble-alt {
+    .dark .glass-bubble-alt {
         background: rgba(10, 10, 10, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.04);
         box-shadow:
@@ -380,11 +403,12 @@ const allTexts = JSON.stringify({
     const sectionEl = document.getElementById("hero-section");
     const TEXTS = sectionEl ? JSON.parse(sectionEl.dataset.texts || "{}") : {};
 
-    // Idioma activo: leer desde cookie
-    function getCurrentLang() {
-        const match = document.cookie.match(/(?:^|;\s*)lang=([^;]+)/);
-        const candidate = match?.[1];
-        return candidate === "es" || candidate === "en" ? candidate : "es";
+    // Si el sitio fue cargado globalmente con un idioma no-default ('en'), iniciamos un switch reactuoso
+    const initialLang = localStorage.getItem("lang") || "es";
+    if (initialLang !== "es") {
+        window.dispatchEvent(
+            new CustomEvent("lang-change", { detail: { lang: initialLang } }),
+        );
     }
 
     // ─── Lógica de Escritura (Typing Effect) ───
@@ -397,13 +421,17 @@ const allTexts = JSON.stringify({
 
     // Desktop
     const bubbleDesktop = document.getElementById(
-        "construction-bubble-desktop"
+        "construction-bubble-desktop",
     );
     const typingContentDesktop = document.getElementById(
-        "typing-content-desktop"
+        "typing-content-desktop",
     );
 
-    function setupTyping(bubbleEl: HTMLElement | null, typingEl: HTMLElement | null, delay: number) {
+    function setupTyping(
+        bubbleEl: HTMLElement | null,
+        typingEl: HTMLElement | null,
+        delay: number,
+    ) {
         if (!bubbleEl || !typingEl) return;
 
         gsap.to(bubbleEl, {
@@ -416,25 +444,21 @@ const allTexts = JSON.stringify({
         });
     }
 
-    // Generación actual para abortar animaciones de typing obsoletas
-    let typingGeneration = 0;
-
     function startTyping(typingEl: HTMLElement | null) {
         if (!typingEl) return;
-        
-        // Aumentar la generación de esta llamada para invalidar corridas anteriores
-        typingGeneration++;
-        const currentGen = typingGeneration;
-        
+
+        // Usar atributo local para aislar generaciones independientemente por burbuja
+        const gen = parseInt(typingEl.dataset.gen || "0") + 1;
+        typingEl.dataset.gen = gen.toString();
+
         typingEl.textContent = "";
         let i = 0;
         const typingSpeed = 0.05;
         const phrase = currentPhrase;
 
         const typeNext = () => {
-            if (currentGen !== typingGeneration) return; // Si cambió la generación o idioma rápio, abortar.
+            if (typingEl.dataset.gen !== gen.toString()) return; // Abortar si inició otra
             if (i < phrase.length && typingEl.textContent !== undefined) {
-                // Guard: if phrase changed mid-type, stop
                 typingEl.textContent += phrase[i];
                 i++;
                 gsap.delayedCall(typingSpeed, typeNext);
@@ -495,7 +519,7 @@ const allTexts = JSON.stringify({
                     duration: 1,
                     ease: "power3.out",
                 },
-                "-=0.4"
+                "-=0.4",
             );
 
             // Grupo inferior sube desde abajo
@@ -507,7 +531,7 @@ const allTexts = JSON.stringify({
                     duration: 1,
                     ease: "power3.out",
                 },
-                "-=0.8"
+                "-=0.8",
             );
         }
     }
@@ -549,10 +573,16 @@ const allTexts = JSON.stringify({
     // Trackers interactivos para los 3 orbes con diferentes roles físicos
     const mouseTrackers = Array.from(orbs).map((orb, i) => {
         // Duraciones: Orb 0 rápido (cazador), Orb 1 ágil oscuro (huye), Orb 2 muy pesado/lento (desfasado)
-        const durations = [0.8, 1.2, 4.5]; 
+        const durations = [0.8, 1.2, 4.5];
         return {
-            xTo: gsap.quickTo(orb, "x", {duration: durations[i] || 2, ease: "power3.out"}),
-            yTo: gsap.quickTo(orb, "y", {duration: durations[i] || 2, ease: "power3.out"})
+            xTo: gsap.quickTo(orb, "x", {
+                duration: durations[i] || 2,
+                ease: "power3.out",
+            }),
+            yTo: gsap.quickTo(orb, "y", {
+                duration: durations[i] || 2,
+                ease: "power3.out",
+            }),
         };
     });
 
@@ -566,7 +596,7 @@ const allTexts = JSON.stringify({
             mouseTrackers[0].xTo(dx);
             mouseTrackers[0].yTo(dy);
         }
-        
+
         // Orb 1 huye (repele) y se aleja en dirección opuesta
         if (mouseTrackers[1]) {
             mouseTrackers[1].xTo(-dx * 1.5);
@@ -583,7 +613,7 @@ const allTexts = JSON.stringify({
     document.documentElement.addEventListener("mouseleave", () => {
         isMouseFollowing = false;
         // Cuando no hay cursor, las regresamos al "centro de su caja de vagancia"
-        mouseTrackers.forEach(tracker => {
+        mouseTrackers.forEach((tracker) => {
             tracker.xTo(0);
             tracker.yTo(0);
         });

@@ -1,23 +1,18 @@
 ---
 // src/components/LangToggle.astro
-// ─── Botón flotante para cambiar ES ↔ EN ───
-import { ui, defaultLang, type Lang } from "../i18n/ui";
+// ─── Botón flotante para cambiar ES ↔ EN (Operativo 100% en Cliente para SSG) ───
+import { ui } from "../i18n/ui";
 
-interface Props {
-    currentLang: Lang;
-}
-
-const { currentLang } = Astro.props;
-const nextLang: Lang = currentLang === "es" ? "en" : "es";
-const label = ui[currentLang]["lang.label"];
-const toggleText = ui[currentLang]["lang.toggle"];
+const defaultLang = "es";
+const label = ui[defaultLang]["lang.label"];
+const toggleText = ui[defaultLang]["lang.toggle"];
 ---
 
 <button
     id="lang-toggle-btn"
     aria-label={label}
     title={label}
-    data-next-lang={nextLang}
+    data-next-lang="en"
     class="lang-toggle"
 >
     <span class="lang-toggle__globe" aria-hidden="true">
@@ -108,6 +103,23 @@ const toggleText = ui[currentLang]["lang.toggle"];
         opacity: 0;
         transform: translateY(-4px);
     }
+
+    /* Modo Oscuro */
+    :global(.dark) .lang-toggle {
+        background: rgba(10, 10, 10, 0.65);
+        border: 1.5px solid rgba(255, 255, 255, 0.05);
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.6),
+            inset 0 2px 6px rgba(255, 255, 255, 0.04);
+        color: var(--color-brand-primary);
+    }
+
+    :global(.dark) .lang-toggle:hover {
+        background: rgba(25, 25, 25, 0.85);
+        box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.8),
+            inset 0 2px 8px rgba(255, 255, 255, 0.08);
+    }
 </style>
 
 <script>
@@ -115,26 +127,36 @@ const toggleText = ui[currentLang]["lang.toggle"];
     const labelEl = document.getElementById("lang-label");
 
     if (btn && labelEl) {
+        // Inicialización en cliente para evitar lecturas de servidor (Astro SSG)
+        const storedLang = localStorage.getItem("lang") || "es";
+        if (storedLang === "en") {
+            labelEl.textContent = "ES";
+            btn.setAttribute("aria-label", "Cambiar idioma");
+            btn.setAttribute("title", "Cambiar idioma");
+            btn.dataset.nextLang = "es";
+        }
+
         btn.addEventListener("click", () => {
-            const nextLang = btn.dataset.nextLang as "es" | "en";
+            const nextLang = btn.dataset.nextLang || "en";
 
             // Animación de salida
             labelEl.classList.add("switching");
 
             setTimeout(() => {
-                // Guardar preferencia en cookie (1 año)
-                document.cookie = `lang=${nextLang};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
-
-                // Disparar evento global para que Hero actualice sus textos
+                // Instaurar preferencia con LocalStorage nativo
+                localStorage.setItem("lang", nextLang);
+                
+                // Forzar atributo del head y disparar evento reactivo para todas partes de la página
+                document.documentElement.lang = nextLang;
                 window.dispatchEvent(
                     new CustomEvent("lang-change", { detail: { lang: nextLang } })
                 );
 
-                // Actualizar el botón
+                // Actualizar el UI del botón
                 const currentLabel =
                     nextLang === "en"
-                        ? { toggle: "ES", title: "Switch language" }
-                        : { toggle: "EN", title: "Cambiar idioma" };
+                        ? { toggle: "ES", title: "Cambiar idioma" }
+                        : { toggle: "EN", title: "Switch language" };
 
                 labelEl.textContent = currentLabel.toggle;
                 btn.setAttribute("aria-label", currentLabel.title);

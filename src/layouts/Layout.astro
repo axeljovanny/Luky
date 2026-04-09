@@ -3,7 +3,6 @@
 import "../styles/global.css";
 import LangToggle from "../components/LangToggle.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
-import { getLangFromCookie } from "../i18n/utils";
 import { ui } from "../i18n/ui";
 
 interface Props {
@@ -12,23 +11,41 @@ interface Props {
 
 const { title } = Astro.props;
 
-const cookieHeader = Astro.request.headers.get("cookie");
-const lang = getLangFromCookie(cookieHeader);
-const metaTitle = title ?? ui[lang]["meta.title"];
-const metaDescription = ui[lang]["meta.description"];
+// SSG: Por defecto el sitio se compila estáticamente asumiendo español.
+// Si el cliente tiene otro idioma configurado, el script inline lo cambia instantáneamente.
+const defaultLang = "es";
+const metaTitle = title ?? ui[defaultLang]["meta.title"];
+const metaDescription = ui[defaultLang]["meta.description"];
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="es">
     <head>
         <meta charset="UTF-8" />
-        <meta name="description" content={metaDescription} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
         
-        {/* Inline script to prevent Flash of Unstyled Content (FOUC) when loading the page */}
+        {/* Open Graph Meta Tags (Para previsualizaciones en Discord, WhatsApp, redes) */}
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:image" content={new URL('/og-image.jpg', Astro.url)} />
+        <meta property="og:locale" content="es_ES" />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={new URL('/og-image.jpg', Astro.url)} />
+
+        <link rel="canonical" href={Astro.url} />
+        
+        {/* Script en LÍNEA (Inline): Evita Flash of Unstyled Content (FOUC) e inicia configuraciones locales antes de renderizar el DOM */}
         <script is:inline>
+            // 1. Restaurar Tema (Oscuro/Claro)
             if (
                 localStorage.getItem("theme") === "dark" ||
                 (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -37,10 +54,16 @@ const metaDescription = ui[lang]["meta.description"];
             } else {
                 document.documentElement.classList.remove("dark");
             }
+
+            // 2. Restaurar Idioma (Lang) del cliente en el DOM y Metadatos para evitar FOUC SEO
+            const storedLang = localStorage.getItem("lang") || "es";
+            if(storedLang !== "es") {
+                document.documentElement.lang = storedLang;
+            }
         </script>
     </head>
     <body class="min-h-screen bg-[var(--color-bg)] overflow-x-hidden text-[var(--color-brand-primary)]">
-        <LangToggle currentLang={lang} />
+        <LangToggle />
         <ThemeToggle />
         <slot />
     </body>
