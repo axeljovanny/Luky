@@ -27,6 +27,18 @@ export const ui = {
         // Lang toggle
         "lang.toggle": "EN",
         "lang.label": "Cambiar idioma",
+
+        // Navigation
+        "nav.menu": "MENÚ",
+        "nav.close": "CERRAR",
+        "nav.cta": "COMIENZA TU PROYECTO",
+        "nav.inicio": "Inicio",
+        "nav.portafolio": "Portafolio",
+        "nav.equipo": "Equipo",
+        "nav.contacto": "Contacto",
+        "nav.redes": "Redes",
+        "nav.theme": "Tema",
+        "nav.lang": "Idioma",
     },
     en: {
         // Hero - Typing phrase
@@ -44,6 +56,18 @@ export const ui = {
         // Lang toggle
         "lang.toggle": "ES",
         "lang.label": "Switch language",
+
+        // Navigation
+        "nav.menu": "MENU",
+        "nav.close": "CLOSE",
+        "nav.cta": "START YOUR PROJECT",
+        "nav.inicio": "Home",
+        "nav.portafolio": "Portfolio",
+        "nav.equipo": "Team",
+        "nav.contacto": "Contact",
+        "nav.redes": "Social",
+        "nav.theme": "Theme",
+        "nav.lang": "Language",
     },
 } as const;
 

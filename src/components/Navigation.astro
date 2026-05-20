@@ -1,0 +1,434 @@
+---
+import Icon from "./Icon.astro";
+import { ui } from "../i18n/ui";
+
+const lang = "es";
+const menuText = ui[lang]["nav.menu"];
+const closeText = ui[lang]["nav.close"];
+const ctaText = ui[lang]["nav.cta"];
+
+const navTexts = JSON.stringify({
+    es: {
+        menu: ui["es"]["nav.menu"], close: ui["es"]["nav.close"], cta: ui["es"]["nav.cta"],
+        inicio: ui["es"]["nav.inicio"], portafolio: ui["es"]["nav.portafolio"],
+        equipo: ui["es"]["nav.equipo"], contacto: ui["es"]["nav.contacto"],
+        redes: ui["es"]["nav.redes"], theme: ui["es"]["nav.theme"], lang: ui["es"]["nav.lang"],
+    },
+    en: {
+        menu: ui["en"]["nav.menu"], close: ui["en"]["nav.close"], cta: ui["en"]["nav.cta"],
+        inicio: ui["en"]["nav.inicio"], portafolio: ui["en"]["nav.portafolio"],
+        equipo: ui["en"]["nav.equipo"], contacto: ui["en"]["nav.contacto"],
+        redes: ui["en"]["nav.redes"], theme: ui["en"]["nav.theme"], lang: ui["en"]["nav.lang"],
+    },
+});
+---
+
+<!-- Botón MENÚ (top-left) -->
+<button id="nav-menu-btn" aria-label="Abrir menú" class="retro-btn retro-btn--menu">
+    <span class="retro-btn__icon">☰</span>
+    <span class="retro-btn__text" id="nav-menu-label">{menuText}</span>
+</button>
+
+<!-- Botón CTA (top-right) -->
+<a href="#" id="nav-cta-btn" class="retro-btn retro-btn--cta">
+    <span class="retro-btn__text" id="nav-cta-label">{ctaText}</span>
+    <span class="retro-btn__icon retro-btn__icon--blink">▶</span>
+</a>
+
+<!-- Overlay Fullscreen Menu -->
+<div id="nav-overlay" class="nav-overlay" data-nav-texts={navTexts} aria-hidden="true">
+    <div class="nav-overlay__scanlines" aria-hidden="true"></div>
+
+    <!-- Close button -->
+    <button id="nav-close-btn" class="retro-btn retro-btn--close" aria-label="Cerrar menú">
+        <span class="retro-btn__icon">✕</span>
+        <span class="retro-btn__text" id="nav-close-label">{closeText}</span>
+    </button>
+
+    <!-- Menu Grid Content -->
+    <nav class="nav-overlay__content">
+        <div class="nav-grid">
+            <!-- 4 Main nav cards -->
+            <a href="#" class="nav-card" data-nav-item="0" id="nav-link-inicio">
+                <span class="nav-card__index">01</span>
+                <span class="nav-card__label" data-i18n="inicio">Inicio</span>
+            </a>
+            <a href="#" class="nav-card" data-nav-item="1" id="nav-link-portafolio">
+                <span class="nav-card__index">02</span>
+                <span class="nav-card__label" data-i18n="portafolio">Portafolio</span>
+            </a>
+            <a href="#" class="nav-card" data-nav-item="2" id="nav-link-equipo">
+                <span class="nav-card__index">03</span>
+                <span class="nav-card__label" data-i18n="equipo">Equipo</span>
+            </a>
+            <a href="#" class="nav-card" data-nav-item="3" id="nav-link-contacto">
+                <span class="nav-card__index">04</span>
+                <span class="nav-card__label" data-i18n="contacto">Contacto</span>
+            </a>
+
+            <!-- Social cards column -->
+            <div class="nav-social-col" data-nav-item="4">
+                <a href="#" aria-label="Instagram" class="nav-social-card">
+                    <Icon name="instagram" class="nav-social-card__icon" />
+                    <span>Instagram</span>
+                </a>
+                <a href="#" aria-label="Behance" class="nav-social-card">
+                    <Icon name="behance" class="nav-social-card__icon" />
+                    <span>Behance</span>
+                </a>
+                <a href="#" aria-label="Facebook" class="nav-social-card">
+                    <Icon name="facebook" class="nav-social-card__icon" />
+                    <span>Facebook</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Controls row: Theme + Language -->
+        <div class="nav-controls" data-nav-item="5">
+            <div class="nav-control">
+                <span class="nav-control__label" data-i18n="theme">Tema</span>
+                <button id="nav-theme-toggle" class="retro-toggle" aria-label="Toggle Dark Mode">
+                    <span class="retro-toggle__opt retro-toggle__opt--sun">☀️</span>
+                    <span class="retro-toggle__opt retro-toggle__opt--moon">🌙</span>
+                </button>
+            </div>
+            <div class="nav-control">
+                <span class="nav-control__label" data-i18n="lang">Idioma</span>
+                <button id="nav-lang-toggle" class="retro-toggle retro-toggle--lang" aria-label="Cambiar idioma">
+                    <span class="retro-toggle__opt">ES</span>
+                    <span class="retro-toggle__opt">EN</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<style is:global>
+    /* ═══ RETRO BUTTONS ═══ */
+    .retro-btn {
+        position: fixed; z-index: 10000;
+        display: inline-flex; align-items: center; gap: 0.6rem;
+        padding: 0.7rem 1.4rem;
+        font-family: "Press Start 2P", monospace;
+        font-size: 0.65rem; letter-spacing: 0.05em;
+        text-decoration: none; border: none; cursor: pointer;
+        user-select: none; -webkit-user-select: none;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.4s ease, color 0.4s ease;
+    }
+
+    .retro-btn--menu, .retro-btn--close {
+        top: 1.8rem; left: 1.8rem;
+        color: var(--color-bg); background: var(--color-brand-primary);
+        box-shadow: 3px 3px 0 0 color-mix(in srgb, var(--color-brand-primary) 60%, black),
+                    0 0 16px 2px color-mix(in srgb, var(--color-brand-primary) 30%, transparent);
+    }
+    .retro-btn--close { z-index: 10002; }
+
+    .retro-btn--cta {
+        top: 1.8rem; right: 1.8rem;
+        color: var(--color-bg); background: var(--color-brand-accent);
+        box-shadow: 3px 3px 0 0 color-mix(in srgb, var(--color-brand-accent) 60%, black),
+                    0 0 20px 3px color-mix(in srgb, var(--color-brand-accent) 25%, transparent);
+        font-size: 0.55rem;
+    }
+
+    .retro-btn:hover { transform: translateY(-2px); }
+    .retro-btn:active { transform: translateY(2px); }
+
+    .retro-btn__icon { font-size: 0.8rem; line-height: 1; }
+    .retro-btn__icon--blink { animation: retro-blink 1.2s step-end infinite; font-size: 0.55rem; }
+    @keyframes retro-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Large screens: bigger buttons */
+    @media (min-width: 1024px) {
+        .retro-btn--menu, .retro-btn--close { top: 2.2rem; left: 2.5rem; padding: 0.85rem 1.7rem; font-size: 0.75rem; }
+        .retro-btn--cta { top: 2.2rem; right: 2.5rem; padding: 0.85rem 1.7rem; font-size: 0.65rem; }
+        .retro-btn__icon { font-size: 0.95rem; }
+    }
+    @media (min-width: 1536px) {
+        .retro-btn--menu, .retro-btn--close { top: 2.5rem; left: 3rem; padding: 1rem 2rem; font-size: 0.85rem; }
+        .retro-btn--cta { top: 2.5rem; right: 3rem; padding: 1rem 2rem; font-size: 0.75rem; }
+    }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+        .retro-btn--cta { font-size: 0.38rem; padding: 0.55rem 0.8rem; max-width: 52vw; }
+        .retro-btn--cta .retro-btn__text { line-height: 1.5; }
+    }
+
+    /* ═══ FULLSCREEN OVERLAY ═══ */
+    .nav-overlay {
+        position: fixed; inset: 0; z-index: 10001;
+        display: flex; align-items: center; justify-content: center;
+        background: color-mix(in srgb, var(--color-bg) 96%, transparent);
+        backdrop-filter: blur(24px) saturate(1.4);
+        -webkit-backdrop-filter: blur(24px) saturate(1.4);
+        opacity: 0; visibility: hidden;
+        clip-path: circle(0% at 3rem 2.5rem);
+        transition: opacity 0.1s ease, visibility 0.1s ease;
+        overflow-y: auto;
+    }
+    .nav-overlay.is-open { opacity: 1; visibility: visible; }
+
+    .nav-overlay__scanlines {
+        position: absolute; inset: 0; pointer-events: none; z-index: 0;
+        opacity: 0.03;
+        background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);
+    }
+    .dark .nav-overlay__scanlines {
+        opacity: 0.06;
+        background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.08) 2px, rgba(255,255,255,0.08) 4px);
+    }
+
+    /* ═══ MENU CONTENT ═══ */
+    .nav-overlay__content {
+        position: relative; z-index: 1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 100%; max-width: 1400px;
+        padding: 6rem 1.5rem 2rem;
+        gap: 2rem;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+    @media (min-width: 768px) { .nav-overlay__content { padding: 6rem 3rem 3rem; gap: 2.5rem; } }
+    @media (min-width: 1280px) { .nav-overlay__content { padding: 5rem 4rem 3rem; } }
+
+    /* ═══ CARD GRID — Cherrybomb style ═══ */
+    .nav-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 0.75rem;
+        width: 100%;
+        flex: 1;
+    }
+
+    /* Desktop: 4 big cards + 1 social column */
+    @media (min-width: 768px) {
+        .nav-grid {
+            grid-template-columns: repeat(4, 1fr) auto;
+            grid-template-rows: 1fr;
+            gap: 1rem;
+            align-items: stretch;
+        }
+    }
+    @media (min-width: 1280px) { .nav-grid { gap: 1.25rem; } }
+
+    /* ═══ NAV CARD ═══ */
+    .nav-card {
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 1.2rem;
+        min-height: 120px;
+        border-radius: 1rem;
+        text-decoration: none;
+        font-family: "Press Start 2P", monospace;
+        color: var(--color-brand-primary);
+        background: color-mix(in srgb, var(--color-brand-primary) 6%, var(--color-bg));
+        border: 1.5px solid color-mix(in srgb, var(--color-brand-primary) 12%, transparent);
+        transition: all 0.3s ease;
+        opacity: 0; transform: translateY(30px);
+        position: relative; overflow: hidden; cursor: pointer;
+    }
+
+    @media (min-width: 768px) { .nav-card { min-height: 280px; padding: 1.8rem; border-radius: 1.25rem; } }
+    @media (min-width: 1280px) { .nav-card { min-height: 380px; padding: 2.2rem; border-radius: 1.5rem; } }
+
+    .nav-card:hover {
+        background: color-mix(in srgb, var(--color-brand-primary) 12%, var(--color-bg));
+        border-color: color-mix(in srgb, var(--color-brand-primary) 35%, transparent);
+        transform: translateY(-4px) !important;
+        box-shadow: 0 8px 30px color-mix(in srgb, var(--color-brand-primary) 15%, transparent),
+                    4px 4px 0 0 color-mix(in srgb, var(--color-brand-primary) 20%, transparent);
+    }
+
+    .nav-card__index {
+        font-size: 0.45rem; opacity: 0.3;
+        position: absolute; top: 1rem; left: 1.2rem;
+    }
+    @media (min-width: 768px) { .nav-card__index { font-size: 0.55rem; top: 1.5rem; left: 1.8rem; } }
+
+    .nav-card__label {
+        font-size: 0.85rem; line-height: 1.4;
+        transition: color 0.4s ease;
+    }
+    @media (min-width: 768px) { .nav-card__label { font-size: 1.1rem; } }
+    @media (min-width: 1280px) { .nav-card__label { font-size: 1.4rem; } }
+
+    /* ═══ SOCIAL COLUMN ═══ */
+    .nav-social-col {
+        display: flex; gap: 0.75rem;
+        grid-column: 1 / -1;
+        opacity: 0; transform: translateY(20px);
+    }
+    @media (min-width: 768px) {
+        .nav-social-col {
+            flex-direction: column; gap: 1rem;
+            grid-column: auto; grid-row: 1;
+            min-width: 140px;
+        }
+    }
+    @media (min-width: 1280px) { .nav-social-col { min-width: 170px; } }
+
+    .nav-social-card {
+        flex: 1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem;
+        padding: 0.8rem 0.5rem;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        font-family: "Press Start 2P", monospace;
+        font-size: 0.35rem;
+        color: var(--color-brand-primary);
+        background: color-mix(in srgb, var(--color-brand-primary) 4%, var(--color-bg));
+        border: 1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent);
+        transition: all 0.25s ease;
+    }
+    @media (min-width: 768px) {
+        .nav-social-card { padding: 1.2rem 0.8rem; border-radius: 1rem; font-size: 0.4rem; gap: 0.6rem; }
+    }
+    @media (min-width: 1280px) { .nav-social-card { font-size: 0.45rem; padding: 1.5rem 1rem; } }
+
+    .nav-social-card:hover {
+        background: color-mix(in srgb, var(--color-brand-primary) 10%, var(--color-bg));
+        border-color: color-mix(in srgb, var(--color-brand-primary) 30%, transparent);
+        transform: translateY(-3px);
+        box-shadow: 3px 3px 0 0 color-mix(in srgb, var(--color-brand-primary) 15%, transparent);
+    }
+
+    .nav-social-card__icon { width: 18px; height: 18px; }
+    @media (min-width: 768px) { .nav-social-card__icon { width: 22px; height: 22px; } }
+
+    /* ═══ CONTROLS ROW ═══ */
+    .nav-controls {
+        display: flex; gap: 1.5rem; justify-content: center; align-items: flex-end;
+        opacity: 0; transform: translateY(15px);
+        padding-top: 0.5rem;
+    }
+
+    .nav-control { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
+
+    .nav-control__label {
+        font-family: "Press Start 2P", monospace;
+        font-size: 0.38rem; color: var(--color-brand-primary);
+        opacity: 0.35; text-transform: uppercase; letter-spacing: 0.1em;
+        transition: color 0.4s ease;
+    }
+
+    .retro-toggle {
+        display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.25rem;
+        background: color-mix(in srgb, var(--color-brand-primary) 8%, transparent);
+        border: 1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent);
+        cursor: pointer; font-family: "Press Start 2P", monospace;
+        font-size: 0.55rem; color: var(--color-brand-primary); transition: all 0.3s ease;
+    }
+    .retro-toggle:hover {
+        border-color: var(--color-brand-primary);
+        box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-brand-primary) 20%, transparent);
+    }
+
+    .retro-toggle__opt { padding: 0.35rem 0.5rem; transition: all 0.25s ease; }
+
+    /* Theme toggle active states */
+    .retro-toggle__opt--sun { background: var(--color-brand-primary); color: var(--color-bg); }
+    .dark .retro-toggle__opt--sun { background: transparent; color: var(--color-brand-primary); }
+    .retro-toggle__opt--moon { background: transparent; color: var(--color-brand-primary); }
+    .dark .retro-toggle__opt--moon { background: var(--color-brand-primary); color: var(--color-bg); }
+
+    /* Lang toggle active states */
+    .retro-toggle--lang .retro-toggle__opt:first-child { background: var(--color-brand-primary); color: var(--color-bg); }
+    .retro-toggle--lang .retro-toggle__opt:last-child { background: transparent; color: var(--color-brand-primary); }
+    .retro-toggle--lang.lang-en .retro-toggle__opt:first-child { background: transparent; color: var(--color-brand-primary); }
+    .retro-toggle--lang.lang-en .retro-toggle__opt:last-child { background: var(--color-brand-primary); color: var(--color-bg); }
+</style>
+
+<script>
+    import gsap from "gsap";
+
+    const menuBtn = document.getElementById("nav-menu-btn");
+    const closeBtn = document.getElementById("nav-close-btn");
+    const overlay = document.getElementById("nav-overlay");
+    const themeToggle = document.getElementById("nav-theme-toggle");
+    const langToggle = document.getElementById("nav-lang-toggle");
+
+    const NAV_TEXTS = overlay ? JSON.parse(overlay.dataset.navTexts || "{}") : {};
+    const navItems = overlay?.querySelectorAll("[data-nav-item]");
+
+    let isOpen = false;
+    let openTl: gsap.core.Timeline | null = null;
+
+    // Init language state
+    const storedLang = localStorage.getItem("lang") || "es";
+    if (storedLang === "en" && langToggle) {
+        langToggle.classList.add("lang-en");
+        updateNavTexts("en");
+    }
+
+    function updateNavTexts(lang: string) {
+        const texts = NAV_TEXTS[lang];
+        if (!texts) return;
+        const menuLabel = document.getElementById("nav-menu-label");
+        const closeLabel = document.getElementById("nav-close-label");
+        const ctaLabel = document.getElementById("nav-cta-label");
+        if (menuLabel) menuLabel.textContent = texts.menu;
+        if (closeLabel) closeLabel.textContent = texts.close;
+        if (ctaLabel) ctaLabel.textContent = texts.cta;
+        overlay?.querySelectorAll("[data-i18n]").forEach((el) => {
+            const key = (el as HTMLElement).dataset.i18n;
+            if (key && texts[key]) el.textContent = texts[key];
+        });
+    }
+
+    function openMenu() {
+        if (isOpen || !overlay) return;
+        isOpen = true;
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        if (openTl) openTl.kill();
+        openTl = gsap.timeline();
+        openTl.to(overlay, { clipPath: "circle(150% at 3rem 2.5rem)", duration: 0.7, ease: "power3.inOut" });
+        if (navItems) {
+            openTl.to(navItems, { opacity: 1, x: 0, y: 0, duration: 0.45, stagger: 0.07, ease: "back.out(1.2)" }, "-=0.3");
+        }
+    }
+
+    function closeMenu() {
+        if (!isOpen || !overlay) return;
+        isOpen = false;
+        if (openTl) openTl.kill();
+        const closeTl = gsap.timeline({
+            onComplete: () => {
+                overlay.classList.remove("is-open");
+                overlay.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+            },
+        });
+        if (navItems) {
+            closeTl.to(navItems, { opacity: 0, y: 20, duration: 0.2, stagger: 0.03, ease: "power2.in" });
+        }
+        closeTl.to(overlay, { clipPath: "circle(0% at 3rem 2.5rem)", duration: 0.5, ease: "power3.inOut" }, "-=0.1");
+    }
+
+    menuBtn?.addEventListener("click", openMenu);
+    closeBtn?.addEventListener("click", closeMenu);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen) closeMenu(); });
+
+    themeToggle?.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+    });
+
+    langToggle?.addEventListener("click", () => {
+        const currentLang = localStorage.getItem("lang") || "es";
+        const nextLang = currentLang === "es" ? "en" : "es";
+        localStorage.setItem("lang", nextLang);
+        document.documentElement.lang = nextLang;
+        nextLang === "en" ? langToggle.classList.add("lang-en") : langToggle.classList.remove("lang-en");
+        updateNavTexts(nextLang);
+        window.dispatchEvent(new CustomEvent("lang-change", { detail: { lang: nextLang } }));
+    });
+
+    window.addEventListener("lang-change", ((e: CustomEvent) => {
+        updateNavTexts(e.detail.lang);
+        e.detail.lang === "en" ? langToggle?.classList.add("lang-en") : langToggle?.classList.remove("lang-en");
+    }) as EventListener);
+</script>

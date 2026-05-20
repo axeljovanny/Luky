@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&family=EB+Garamond:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&family=EB+Garamond:wght@400;700&family=Press+Start+2P&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-montserrat: "Montserrat", sans-serif;
   --font-lato: "Lato", sans-serif;
   --font-garamond: "EB Garamond", serif;
+  --font-retro: "Press Start 2P", monospace;
 
   /* Breakpoint extra small para teléfonos medianos (iPhone SE, 13 mini) */
   --breakpoint-xs: 390px;
