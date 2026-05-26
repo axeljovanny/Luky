@@ -3,24 +3,52 @@ import Icon from "../Icon.astro";
 ---
 
 <section>
-    <footer
-        class="footer w-full h-[30vh] bg-blue-500 flex items-center justify-center"
-    >
-        <div class="container w-[100%] h-[80%] bg-amber-200">
-            <div class="banner"></div>
-            <div class="redes">
-                <a
-                    href="https://www.behance.net/LuckyDuckyStudio"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    aria-label="Portafolio de Behance"
-                    data-bubble="1"
-                    class=""
-                >
-                    <Icon name="behance" class="w-12 h-12" />
-                </a>
-            </div>
-            <div class="direccion"></div>
+    <footer class="w-full bg-white px-8 py-12 font-sans text-black">
+  
+  <div class="max-w-6xl mx-auto flex flex-col gap-8">
+    
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+      
+      <div class="flex flex-wrap gap-4 w-40">
+        <a href="https://www.facebook.com/luckyducky.studio" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition shadow-sm">
+          <Icon name="facebook" class="w-8 h-8 text-black opacity-90 drop-shadow-md" />
+        </a>
+        <a href="" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-full hover:bg-gray-50 transition shadow-sm">
+          <span class="text-2xl">🦆</span>
+        </a>
+        <a href="https://www.instagram.com/lduckystudio/" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition shadow-sm">
+          <Icon name="instagram" class="w-14 h-14 xs:w-20 xs:h-20 sm:w-[4.4rem] sm:h-[4.4rem] xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 z-10 opacity-90 drop-shadow-md"/>
+        </a>
+        <a href="https://www.behance.net/LuckyDuckyStudio" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition shadow-sm">
+          <Icon name="behance" class="w-12 h-12 xs:w-20 xs:h-20 sm:w-16 sm:h-16 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 z-10 opacity-90 drop-shadow-md"
+                />
+        </a>
+      </div>
+
+      <div class="flex-1 w-full max-w-xl border border-gray-300 rounded-3xl p-8 shadow-sm flex flex-col sm:flex-row justify-between gap-8">
+        
+        <div class="flex-1">
+          <h3 class="font-extrabold text-sm uppercase tracking-wider mb-2">Dirección</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
         </div>
-    </footer>
+        
+        <div class="flex flex-col gap-1.5 min-w-[120px]">
+          <a href="#" class="font-extrabold text-sm uppercase tracking-wider hover:text-gray-600">Inicio</a>
+          <a href="#" class="font-extrabold text-sm uppercase tracking-wider hover:text-gray-600">Proyectos</a>
+          <a href="#" class="font-extrabold text-sm uppercase tracking-wider hover:text-gray-600">Equipo</a>
+          <a href="#" class="font-extrabold text-sm uppercase tracking-wider hover:text-gray-600">Contacto</a>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <div class="text-center pt-4 text-xs text-gray-500">
+      Diseñado por Lucky Ducky Studio™
+    </div>
+
+  </div>
+</footer>
 </section>
