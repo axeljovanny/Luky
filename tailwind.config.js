@@ -4,7 +4,9 @@ module.exports = {
             fontFamily: {
                 'montserrat': ['Montserrat'],
                 'lato': ['Lato'],
-                'garamond': ['Garamond']
+                'garamond': ['Garamond'],
+                'cygrotesk': ['CyGrotesk-GrandDark', 'sans-serif'],
+                'porsche': ['LePorsche', 'sans-serif']
             },
             animation: {
         marquee: 'marquee 15s linear infinite',
