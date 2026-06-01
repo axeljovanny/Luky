@@ -1,61 +1,266 @@
 ---
+// src/components/sections/Footer.astro
 import Icon from "../Icon.astro";
+import { ui, defaultLang } from "../../i18n/ui";
+
+const lang = defaultLang;
+
+// Serializar todos los textos al cliente para la internacionalización en tiempo real
+const allTexts = JSON.stringify({
+    es: {
+        designedBy: ui["es"]["hero.designedBy"],
+        brandName: ui["es"]["hero.brandName"],
+        inicio: ui["es"]["nav.inicio"],
+        proyectos: ui["es"]["nav.portafolio"],
+        equipo: ui["es"]["nav.equipo"],
+        contacto: ui["es"]["nav.contacto"],
+        phraseLine1: ui["es"]["footer.phraseLine1"],
+        phraseLine2: ui["es"]["footer.phraseLine2"],
+    },
+    en: {
+        designedBy: ui["en"]["hero.designedBy"],
+        brandName: ui["en"]["hero.brandName"],
+        inicio: ui["en"]["nav.inicio"],
+        proyectos: ui["en"]["nav.portafolio"],
+        equipo: ui["en"]["nav.equipo"],
+        contacto: ui["en"]["nav.contacto"],
+        phraseLine1: ui["en"]["footer.phraseLine1"],
+        phraseLine2: ui["en"]["footer.phraseLine2"],
+    },
+});
 ---
 
-<section>
-    <footer class="w-full bg-white px-8 py-12 font-sans text-black">
+<section 
+  id="footer-section" 
+  data-texts={allTexts} 
+  class="w-full bg-[var(--footer-bg)] text-[var(--footer-text)] pt-6 pb-12 sm:pt-8 sm:pb-16 font-sans overflow-hidden flex flex-col items-center relative transition-colors duration-500"
+>
   
-  <div class="max-w-6xl mx-auto flex flex-col gap-8">
-    
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+  <!-- 1. Botón de Scroll Superior -->
+  <div class="flex flex-col items-center mb-6 sm:mb-8 select-none z-10">
+    <button 
+      id="footer-scroll-down-btn" 
+      aria-label="Desplazar al pie de página" 
+      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[var(--footer-social-bg)] border border-[var(--footer-border)] text-[var(--footer-text)] hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer flex items-center justify-center"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-y-0.5 transition-transform duration-300">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l-6.75-6.75M12 19.5l6.75-6.75" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- 2. Cinta Infinita (Esquinas redondeadas pero bordes rectos) -->
+  <div class="w-full overflow-hidden select-none pointer-events-none mb-8 sm:mb-10 z-10">
+    <div class="flex w-[200%] animate-marquee-wrap">
       
-      <div class="flex flex-wrap gap-4 w-40">
-        <a href="https://www.facebook.com/luckyducky.studio" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition shadow-sm">
-          <Icon name="facebook" class="w-8 h-8 text-black opacity-90 drop-shadow-md" />
-        </a>
-        <a href="" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-full hover:bg-gray-50 transition shadow-sm">
-          <span class="text-2xl">🦆</span>
-        </a>
-        <a href="https://www.instagram.com/lduckystudio/" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition shadow-sm">
-          <Icon name="instagram" class="w-8 h-8  text-black opacity-90 drop-shadow-md"/>
-        </a>
-        <a href="https://www.behance.net/LuckyDuckyStudio" class="w-16 h-16 flex items-center justify-center border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition shadow-sm">
-          <Icon name="behance" class="w-8 h-8  text-black opacity-90 drop-shadow-md"/>
-        </a>
+      <!-- Bloque 1 -->
+      <div class="w-1/2 flex justify-center items-center flex-shrink-0">
+        <div class="bg-[var(--footer-card-bg)] border border-[var(--footer-border)] rounded-[1.5rem] py-4 sm:py-5 px-10 sm:px-20 flex items-center justify-center transition-colors duration-450">
+          <h2 class="font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[var(--footer-text)] tracking-[0.02em] leading-none uppercase font-montserrat transition-colors duration-450">
+            LUCKY DUCKY
+          </h2>
+        </div>
+      </div>
+      
+      <!-- Bloque 2 (Duplicado Idéntico) -->
+      <div class="w-1/2 flex justify-center items-center flex-shrink-0" aria-hidden="true">
+        <div class="bg-[var(--footer-card-bg)] border border-[var(--footer-border)] rounded-[1.5rem] py-4 sm:py-5 px-10 sm:px-20 flex items-center justify-center transition-colors duration-450">
+          <h2 class="font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[var(--footer-text)] tracking-[0.02em] leading-none uppercase font-montserrat transition-colors duration-450">
+            LUCKY DUCKY
+          </h2>
+        </div>
       </div>
 
-     <div class="w-full max-w-3xl border border-orange-200/60 rounded-[2.5rem] p-10 bg-white/70 backdrop-blur-md flex flex-col gap-10 shadow-sm relative overflow-hidden">
+    </div>
+  </div>
 
-    <div class="w-full flex flex-row justify-between items-start">
+  <!-- 3. Contenedor de Rejilla con Alturas Proporcionales -->
+  <div class="w-full max-w-7xl px-4 sm:px-8 z-10">
+    <div class="w-full flex flex-col lg:flex-row items-center lg:items-stretch gap-3 lg:gap-4">
+      
+      <!-- Lado Izquierdo: Rejilla Social de 2x2 (Cuadros Aspect-Square exactos, más pegados) -->
+      <div class="grid grid-cols-2 gap-2 sm:gap-3 w-[150px] sm:w-[230px] md:w-[250px] lg:w-[280px] select-none flex-shrink-0 h-fit">
         
-        <div class="flex flex-col text-[#e94e1b] max-w-sm select-none">
-            <h2 class="font-black text-6xl tracking-[0.08em] leading-none mb-1">
-                UNA FRASE
-            </h2>
-            <h3 class="font-medium text-2xl tracking-widest leading-none mb-1">
-                PERRONA, PERO LLAMATIVA
+        <!-- Hueco vacío -->
+        <div class="pointer-events-none aspect-square w-full"></div>
+        
+        <!-- Behance -->
+        <a href="https://www.behance.net/LuckyDuckyStudio" target="_blank" rel="noopener noreferrer" 
+           aria-label="Behance Lucky Ducky"
+           class="w-full aspect-square flex items-center justify-center border rounded-[1.2rem] sm:rounded-[1.8rem] bg-[var(--footer-social-bg)] border-[var(--footer-border)] hover:bg-white dark:hover:bg-[#181818] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 group cursor-pointer relative overflow-hidden"
+        >
+          <Icon name="behance" class="w-[45%] h-[45%] text-[var(--footer-text)] opacity-90 group-hover:scale-110 transition-transform duration-300" />
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/luckyducky.studio" target="_blank" rel="noopener noreferrer" 
+           aria-label="Facebook Lucky Ducky"
+           class="w-full aspect-square flex items-center justify-center border rounded-[1.2rem] sm:rounded-[1.8rem] bg-[var(--footer-social-bg)] border-[var(--footer-border)] hover:bg-white dark:hover:bg-[#181818] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 group cursor-pointer relative overflow-hidden"
+        >
+          <Icon name="facebook" class="w-[45%] h-[45%] text-[var(--footer-text)] opacity-90 group-hover:scale-110 transition-transform duration-300" />
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/lduckystudio/" target="_blank" rel="noopener noreferrer" 
+           aria-label="Instagram Lucky Ducky"
+           class="w-full aspect-square flex items-center justify-center border rounded-[1.2rem] sm:rounded-[1.8rem] bg-[var(--footer-social-bg)] border-[var(--footer-border)] hover:bg-white dark:hover:bg-[#181818] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 group cursor-pointer relative overflow-hidden"
+        >
+          <Icon name="instagram" class="w-[45%] h-[45%] text-[var(--footer-text)] opacity-90 group-hover:scale-110 transition-transform duration-300" />
+        </a>
+
+      </div>
+
+      <!-- Lado Derecho: Tarjeta Principal con Textura de Cristal (Más Compacta) -->
+      <div class="flex-1 border rounded-[1.8rem] sm:rounded-[2.5rem] p-5 sm:p-6 lg:p-7 bg-[var(--footer-card-bg)] border-[var(--footer-border)] backdrop-blur-xl flex flex-col justify-between relative overflow-hidden transition-all duration-400 min-h-[280px]">
+        
+        {/* Capas de Textura de Cristal Líquido / Glossy */}
+        <div class="absolute inset-0 pointer-events-none opacity-[0.25] dark:opacity-[0.1] mix-blend-overlay transition-opacity duration-400" 
+             style="background: radial-gradient(circle at 15% 25%, rgba(255,255,255,0.95) 0%, transparent 45%), radial-gradient(circle at 85% 75%, rgba(255,255,255,0.85) 0%, transparent 55%);">
+        </div>
+        <div class="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.04] mix-blend-overlay transition-opacity duration-400" 
+             style={`background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");`}>
+        </div>
+
+        {/* Bloque Superior: Frase y Navegación */}
+        <div class="w-full flex flex-col sm:flex-row justify-between items-start gap-6 z-10">
+          
+          {/* Titular */}
+          <div class="flex flex-col text-[var(--footer-text)] select-none transition-colors duration-500">
+            <h3 class="font-black text-3xl sm:text-4xl md:text-5xl tracking-[0.03em] leading-none mb-1.5 font-montserrat footer-txt-phraseLine1">
+              {ui[lang]["footer.phraseLine1"]}
             </h3>
+            <h4 class="font-medium text-[10px] sm:text-sm md:text-md tracking-[0.12em] leading-none opacity-90 font-montserrat footer-txt-phraseLine2">
+              {ui[lang]["footer.phraseLine2"]}
+            </h4>
+          </div>
+
+          {/* Menú de Navegación */}
+          <nav class="flex flex-col gap-2 text-[var(--footer-text)] text-left font-black text-xs sm:text-sm tracking-widest font-montserrat transition-colors duration-500 pr-2 pt-2 sm:pt-6 md:pt-8 md:pl-6">
+            <a href="#" data-footer-nav="inicio" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+              <span>{ui[lang]["nav.inicio"]}</span>
+            </a>
+            <a href="#" data-footer-nav="proyectos" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+              <span>{ui[lang]["nav.portafolio"]}</span>
+            </a>
+            <a href="#" data-footer-nav="equipo" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+              <span>{ui[lang]["nav.equipo"]}</span>
+            </a>
+            <a href="#" data-footer-nav="contacto" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+              <span>{ui[lang]["nav.contacto"]}</span>
+            </a>
+          </nav>
+
         </div>
 
-        <nav class="flex flex-col gap-2 text-[#e94e1b] text-left font-black text-sm tracking-wider pt-1">
-            <a href="#" class="hover:opacity-75 transition-opacity">INICIO</a>
-            <a href="#" class="hover:opacity-75 transition-opacity">PROYECTOS</a>
-            <a href="#" class="hover:opacity-75 transition-opacity">EQUIPO</a>
-            <a href="#" class="hover:opacity-75 transition-opacity">CONTACTO</a>
-        </nav>
-
-    </div>
-
-    <div class="w-full">
-        <p class="text-[#e94e1b] text-sm font-semibold tracking-wide opacity-90">
-            Dolores Hidalgo, Guanajuato, México.
+        {/* Bloque Medio: Ubicación */}
+        <p class="text-[var(--footer-text)] text-[9px] sm:text-xs font-semibold tracking-wider opacity-85 select-none transition-colors duration-500 font-montserrat z-10 mt-auto mb-auto py-2">
+          Dolores Hidalgo, Guanajuato, México.
         </p>
-    </div>
-
-    <div class="w-full text-center text-sm text-[#e94e1b]">
-            <p>Diseñado por Lucky Ducky Studio™</p>
+        
+        {/* Bloque Inferior: Firma */}
+        <div class="text-[9px] sm:text-xs text-[var(--footer-text)]/80 font-bold tracking-wide select-none transition-colors duration-500 font-montserrat z-10 mt-auto">
+          <p>
+            <span class="footer-txt-designedBy">{ui[lang]["hero.designedBy"]}</span>
+            {" "}
+            <span class="font-black tracking-wider text-[var(--footer-text)] footer-txt-brandName">{ui[lang]["hero.brandName"]}™</span>
+          </p>
         </div>
 
-</div>
-</footer>
+      </div>
+
+    </div>
+  </div>
 </section>
+
+<style>
+  /* 1. Variables de Color Reactivas al Tema */
+  #footer-section {
+    --footer-bg: #f5efe9;
+    --footer-card-bg: rgba(255, 255, 255, 0.7);
+    --footer-social-bg: rgba(255, 255, 255, 0.85);
+    --footer-border: rgba(233, 78, 27, 0.25);
+    --footer-text: #e94e1b;
+  }
+
+  :global(.dark) #footer-section {
+    --footer-bg: #0f0f0f;
+    --footer-card-bg: rgba(18, 18, 18, 0.5);
+    --footer-social-bg: rgba(21, 21, 21, 0.6);
+    --footer-border: rgba(64, 244, 184, 0.1);
+    --footer-text: #40f4b8;
+  }
+
+  /* 2. Animación del marquee */
+  @keyframes marquee-wrap {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee-wrap {
+    animation: marquee-wrap 14s linear infinite;
+  }
+</style>
+
+<script>
+  // ─── Lógica Client-Side del Footer ───
+  const sectionEl = document.getElementById("footer-section");
+  const TEXTS = sectionEl ? JSON.parse(sectionEl.dataset.texts || "{}") : {};
+
+  // 1. Desplazamiento Suave (Scroll Behavior)
+  const scrollDownBtn = document.getElementById("footer-scroll-down-btn");
+  scrollDownBtn?.addEventListener("click", () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  });
+
+  // 2. Internacionalización Dinámica (Escuchando cambios de idioma en tiempo real)
+  function updateFooterTexts(lang: string) {
+    const texts = TEXTS[lang];
+    if (!texts) return;
+
+    // Actualizar firmas "Diseñado por LUCKY DUCKY™"
+    const designedByEls = document.querySelectorAll(".footer-txt-designedBy");
+    designedByEls.forEach((el) => {
+      el.textContent = texts.designedBy;
+    });
+
+    const brandNameEls = document.querySelectorAll(".footer-txt-brandName");
+    brandNameEls.forEach((el) => {
+      el.textContent = `${texts.brandName}™`;
+    });
+
+    // Actualizar titular principal traducible
+    const phraseLine1 = document.querySelector(".footer-txt-phraseLine1");
+    const phraseLine2 = document.querySelector(".footer-txt-phraseLine2");
+    if (phraseLine1) phraseLine1.textContent = texts.phraseLine1;
+    if (phraseLine2) phraseLine2.textContent = texts.phraseLine2;
+
+    // Actualizar navegación interna
+    const navInicio = document.querySelector('[data-footer-nav="inicio"] span');
+    const navProyectos = document.querySelector('[data-footer-nav="proyectos"] span');
+    const navEquipo = document.querySelector('[data-footer-nav="equipo"] span');
+    const navContacto = document.querySelector('[data-footer-nav="contacto"] span');
+
+    if (navInicio) navInicio.textContent = texts.inicio;
+    if (navProyectos) navProyectos.textContent = texts.proyectos;
+    if (navEquipo) navEquipo.textContent = texts.equipo;
+    if (navContacto) navContacto.textContent = texts.contacto;
+  }
+
+  // Escuchar el evento personalizado de traducción emitido por Navigation.astro
+  window.addEventListener("lang-change", ((e: CustomEvent) => {
+    updateFooterTexts(e.detail.lang);
+  }) as EventListener);
+
+  // Inicializar en base a configuración guardada en localStorage
+  const initialLang = localStorage.getItem("lang") || "es";
+  if (initialLang !== "es") {
+    updateFooterTexts(initialLang);
+  }
+</script>

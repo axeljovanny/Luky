@@ -39,6 +39,8 @@ export const ui = {
         "nav.redes": "Redes",
         "nav.theme": "Tema",
         "nav.lang": "Idioma",
+        "footer.phraseLine1": "UNA FRASE",
+        "footer.phraseLine2": "PERRONA, PERO LLAMATIVA",
     },
     en: {
         // Hero - Typing phrase
@@ -68,6 +70,8 @@ export const ui = {
         "nav.redes": "Social",
         "nav.theme": "Theme",
         "nav.lang": "Language",
+        "footer.phraseLine1": "A COOL PHRASE",
+        "footer.phraseLine2": "BUT CATCHY",
     },
 } as const;
 
