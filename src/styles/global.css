@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&family=EB+Garamond:wght@400;700&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Lato:wght@400;700&family=EB+Garamond:wght@400;700&family=Press+Start+2P&display=swap');
 @import "tailwindcss";
 
 @font-face {
   font-family: 'CyGrotesk-GrandDark';
-  src: url('/fonts/CyGrotesk-GrandDark.otf') format('opentype');
+  src: url('/CyGrotesk-GrandDark.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -11,7 +11,7 @@
 
 @font-face {
   font-family: 'LePorsche';
-  src: url('/fonts/AL_LePORSCHE_PersonalUseOnly.otf') format('opentype');
+  src: url('/AL_LePORSCHE_PersonalUseOnly.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

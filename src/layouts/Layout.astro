@@ -2,6 +2,7 @@
 // src/layouts/Layout.astro
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
+import LiquidBackground from "../components/LiquidBackground.astro";
 import { ui } from "../i18n/ui";
 
 interface Props {
@@ -61,7 +62,8 @@ const metaDescription = ui[defaultLang]["meta.description"];
             }
         </script>
     </head>
-    <body class="min-h-screen bg-[var(--color-bg)] overflow-x-hidden text-[var(--color-brand-primary)]">
+    <body class="min-h-screen overflow-x-hidden text-[var(--color-brand-primary)]">
+        <LiquidBackground />
         <Navigation />
         <slot />
     </body>

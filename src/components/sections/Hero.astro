@@ -31,7 +31,7 @@ const allTexts = JSON.stringify({
     id="hero-section"
     data-phrase={typingPhrase}
     data-texts={allTexts}
-    class="relative w-full h-dvh bg-[var(--color-bg)] flex items-center justify-center p-0 md:p-0 overflow-hidden"
+    class="relative w-full h-dvh flex items-center justify-center p-0 md:p-0 overflow-hidden"
 >
     {/* SVG de Filtro Artístico (Invisible) */}
     <svg class="absolute w-0 h-0 invisible" aria-hidden="true">
@@ -75,42 +75,6 @@ const allTexts = JSON.stringify({
             </filter>
         </defs>
     </svg>
-
-    {
-        /* Fondo Pantalla Completa: Fluido Continuo que abarca el 100% de la ventana */
-    }
-    <div class="absolute inset-0 overflow-hidden bg-[var(--color-bg)]">
-        <div
-            data-orb="0"
-            class="absolute w-[80vw] h-[80vh] md:w-[60vw] md:h-[60vh] bg-[var(--color-orb-1)] rounded-[40%] blur-[60px] md:blur-[80px] top-1/2 left-1/2 -ml-[40vw] -mt-[40vh] md:-ml-[30vw] md:-mt-[30vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
-        >
-        </div>
-        <div
-            data-orb="1"
-            class="absolute w-[70vw] h-[70vh] md:w-[50vw] md:h-[50vh] bg-[var(--color-orb-2)] rounded-[45%] blur-[70px] md:blur-[100px] top-1/2 left-1/2 -ml-[35vw] -mt-[35vh] md:-ml-[25vw] md:-mt-[25vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
-        >
-        </div>
-        <div
-            data-orb="2"
-            class="absolute w-[90vw] h-[90vh] md:w-[70vw] md:h-[70vh] bg-[var(--color-orb-3)] rounded-[35%] blur-[80px] md:blur-[120px] top-1/2 left-1/2 -ml-[45vw] -mt-[45vh] md:-ml-[35vw] md:-mt-[35vh] mix-blend-[var(--orb-blend-mode)] will-change-transform"
-        >
-        </div>
-
-        {/* Capa de Textura / Ruido SVG en linea */}
-        <div
-            class="absolute inset-0 z-0 opacity-100 mix-blend-overlay pointer-events-none"
-            style={`background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");`}
-        >
-        </div>
-
-        {
-            /* Soporte de difuminado interno (Viñeta suave adaptativa al tema) para que se mezclen con el borde */
-        }
-        <div
-            class="absolute inset-0 z-0 pointer-events-none shadow-[inset_0_0_80px_40px_var(--color-bg)] md:shadow-[inset_0_0_150px_80px_var(--color-bg)]"
-        >
-        </div>
-    </div>
 
     {
         /* Contenedor Secundario UI: 90x90 en móvil, 80x80 en Web. Limita y enmarca las burbujas flotantes */
@@ -542,123 +506,10 @@ const allTexts = JSON.stringify({
         }
     }
 
-    // ─── Organic Morphing para los Orbes Líquidos ───
-    const orbs = document.querySelectorAll("[data-orb]");
-
-    // Cada orbe tiene su propio timeline infinito con valores orgánicos distintos
-    const orbConfigs = [
-        {
-            // Orbe naranja -> tonos variados
-            xRange: [-50, 50],
-            yRange: [-40, 40],
-            scaleRange: [0.6, 2.2],
-            duration: [1.2, 5],
-        },
-        {
-            // Orbe rosa -> tonos variados
-            xRange: [-45, 55],
-            yRange: [-50, 35],
-            scaleRange: [0.7, 2.3],
-            duration: [1.5, 6],
-        },
-        {
-            // Orbe ámbar -> tonos variados
-            xRange: [-55, 45],
-            yRange: [-40, 50],
-            scaleRange: [0.65, 2.1],
-            duration: [1.3, 5.5],
-        },
-    ];
-
+    // ─── Helper para valores aleatorios ───
     function rand(min: number, max: number) {
         return gsap.utils.random(min, max);
     }
-
-    let isMouseFollowing = false;
-
-    // Trackers interactivos para los 3 orbes con diferentes roles físicos
-    const mouseTrackers = Array.from(orbs).map((orb, i) => {
-        // Duraciones: Orb 0 rápido (cazador), Orb 1 ágil oscuro (huye), Orb 2 muy pesado/lento (desfasado)
-        const durations = [0.8, 1.2, 4.5];
-        return {
-            xTo: gsap.quickTo(orb, "x", {
-                duration: durations[i] || 2,
-                ease: "power3.out",
-            }),
-            yTo: gsap.quickTo(orb, "y", {
-                duration: durations[i] || 2,
-                ease: "power3.out",
-            }),
-        };
-    });
-
-    document.documentElement.addEventListener("mousemove", (e) => {
-        isMouseFollowing = true;
-        const dx = e.clientX - window.innerWidth / 2;
-        const dy = e.clientY - window.innerHeight / 2;
-
-        // Orb 0 sigue al ratón casi perfectamente
-        if (mouseTrackers[0]) {
-            mouseTrackers[0].xTo(dx);
-            mouseTrackers[0].yTo(dy);
-        }
-
-        // Orb 1 huye (repele) y se aleja en dirección opuesta
-        if (mouseTrackers[1]) {
-            mouseTrackers[1].xTo(-dx * 1.5);
-            mouseTrackers[1].yTo(-dy * 1.5);
-        }
-
-        // Orb 2 se "desfasa", siguiendo muy perezosamente y limitando su distancia al 40% del área
-        if (mouseTrackers[2]) {
-            mouseTrackers[2].xTo(dx * 0.4);
-            mouseTrackers[2].yTo(dy * 0.4);
-        }
-    });
-
-    document.documentElement.addEventListener("mouseleave", () => {
-        isMouseFollowing = false;
-        // Cuando no hay cursor, las regresamos al "centro de su caja de vagancia"
-        mouseTrackers.forEach((tracker) => {
-            tracker.xTo(0);
-            tracker.yTo(0);
-        });
-    });
-
-    orbs.forEach((orb, i) => {
-        const cfg = orbConfigs[i];
-        if (!cfg) return;
-
-        function animateNext() {
-            // Alta probabilidad de "estallidos" (80%) para que sea muy explosivo
-            const isFastBurst = Math.random() < 0.8;
-            const duration = isFastBurst
-                ? rand(1.2, 2.5)
-                : rand(cfg.duration[0], cfg.duration[1]);
-
-            let gsapConfig: any = {
-                scaleX: rand(cfg.scaleRange[0], cfg.scaleRange[1]),
-                scaleY: rand(cfg.scaleRange[0], cfg.scaleRange[1]),
-                rotation: rand(-90, 90),
-                duration: duration,
-                ease: "sine.inOut",
-                onComplete: animateNext,
-            };
-
-            // Lógica combinada: si está el ratón, dejamos que quickTo manipule `x` y matamos fluidamente `xPercent`
-            if (!isMouseFollowing) {
-                gsapConfig.xPercent = rand(cfg.xRange[0], cfg.xRange[1]);
-                gsapConfig.yPercent = rand(cfg.yRange[0], cfg.yRange[1]);
-            } else {
-                gsapConfig.xPercent = 0;
-                gsapConfig.yPercent = 0;
-            }
-
-            gsap.to(orb, gsapConfig);
-        }
-
-        gsap.delayedCall(rand(0, 1.2), animateNext);
-    });
 
     // ─── Animaciones Flotantes para las Burbujas de Redes Sociales ───
     const bubbles = document.querySelectorAll("[data-bubble]");

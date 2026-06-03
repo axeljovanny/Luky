@@ -34,7 +34,7 @@ const allTexts = JSON.stringify({
 <section
   id="footer-section"
   data-texts={allTexts}
-  class="w-full bg-[var(--footer-bg)] text-[var(--footer-text)] pt-6 pb-12 sm:pt-8 sm:pb-16 font-sans overflow-hidden flex flex-col items-center relative transition-colors duration-500"
+  class="w-full text-[var(--footer-text)] pt-6 pb-12 sm:pt-8 sm:pb-16 font-sans overflow-hidden flex flex-col items-center relative transition-colors duration-500"
 >
  
   <div class="flex flex-col items-center mb-6 sm:mb-8 select-none z-10">
@@ -51,33 +51,35 @@ const allTexts = JSON.stringify({
   </div>
 
 
+  {/* ═══ MARQUEE "LUCKY DUCKY" ═══ */}
   <div class="w-full overflow-hidden select-none pointer-events-none mb-8 sm:mb-10 z-10">
     <div class="flex w-[200%] animate-marquee-wrap">
      
       <div class="w-1/2 flex justify-center items-center flex-shrink-0">
-        <div class="glass-container rounded-[1.5rem] py-4 sm:py-5 px-10 sm:px-20 flex items-center justify-center relative overflow-hidden">
-          <h2 class="font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[var(--footer-text)] tracking-[0.02em] leading-none uppercase font-montserrat z-10">
+        <div class="glass-container rounded-[1.5rem] sm:rounded-[2rem] py-5 sm:py-7 px-12 sm:px-24 md:px-32 flex items-center justify-center relative overflow-hidden">
+          <h2 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[var(--footer-text)] tracking-[0.04em] leading-none uppercase z-10" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900;">
             LUCKY DUCKY
           </h2>
         </div>
       </div>
      
       <div class="w-1/2 flex justify-center items-center flex-shrink-0" aria-hidden="true">
-        <div class="glass-container rounded-[1.5rem] py-4 sm:py-5 px-10 sm:px-20 flex items-center justify-center relative overflow-hidden">
-          <h2 class="font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[var(--footer-text)] tracking-[0.02em] leading-none uppercase font-montserrat z-10">
+        <div class="glass-container rounded-[1.5rem] sm:rounded-[2rem] py-5 sm:py-7 px-12 sm:px-24 md:px-32 flex items-center justify-center relative overflow-hidden">
+          <h2 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[var(--footer-text)] tracking-[0.04em] leading-none uppercase z-10" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900;">
             LUCKY DUCKY
           </h2>
         </div>
       </div>
 
-
     </div>
   </div>
 
 
+  {/* ═══ BLOQUE INFERIOR: Redes + Tarjeta Principal ═══ */}
   <div class="w-full max-w-7xl px-4 sm:px-8 z-10">
     <div class="w-full flex flex-col lg:flex-row items-center lg:items-stretch gap-3 lg:gap-4">
      
+      {/* ── Grid de Redes Sociales ── */}
       <div class="grid grid-cols-2 gap-2 sm:gap-3 w-[150px] sm:w-[230px] md:w-[250px] lg:w-[280px] select-none flex-shrink-0 h-fit">
        
         <div class="pointer-events-none aspect-square w-full"></div>
@@ -109,9 +111,10 @@ const allTexts = JSON.stringify({
       </div>
 
 
-      <div class="flex-1 rounded-[1.8rem] sm:rounded-[2.5rem] p-5 sm:p-6 lg:p-7 glass-container flex flex-col justify-between relative overflow-hidden transition-all duration-400 min-h-[280px]">
+      {/* ── Tarjeta Principal de Contenido ── */}
+      <div class="flex-1 rounded-[1.8rem] sm:rounded-[2.5rem] p-6 sm:p-8 lg:p-10 glass-container flex flex-col justify-between relative overflow-hidden transition-all duration-400 min-h-[320px] sm:min-h-[360px]">
        
-        {/* Capas de Textura de Cristal Líquido / Glossy (Mantenidas para sumar detalle) */}
+        {/* Capas de Textura de Cristal Líquido / Glossy */}
         <div class="absolute inset-0 pointer-events-none opacity-[0.25] dark:opacity-[0.1] mix-blend-overlay transition-opacity duration-400"
              style="background: radial-gradient(circle at 15% 25%, rgba(255,255,255,0.95) 0%, transparent 45%), radial-gradient(circle at 85% 75%, rgba(255,255,255,0.85) 0%, transparent 55%);">
         </div>
@@ -120,32 +123,32 @@ const allTexts = JSON.stringify({
         </div>
 
 
-        {/* Bloque Superior: Frase y Navegación */}
+        {/* ── Bloque Superior: Frase + Navegación ── */}
         <div class="w-full flex flex-col sm:flex-row justify-between items-start gap-6 z-10">
          
           {/* Titular */}
           <div class="flex flex-col text-[var(--footer-text)] select-none transition-colors duration-500">
-            <h3 class="font-black text-3xl sm:text-4xl md:text-5xl tracking-[0.03em] leading-none mb-1.5 font-montserrat footer-txt-phraseLine1">
+            <h3 class="text-5xl sm:text-6xl md:text-7xl tracking-[0.03em] leading-[0.9] mb-2 footer-txt-phraseLine1" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900;">
               {ui[lang]["footer.phraseLine1"]}
             </h3>
-            <h4 class="font-medium text-[10px] sm:text-sm md:text-md tracking-[0.12em] leading-none opacity-90 font-montserrat footer-txt-phraseLine2">
+            <h4 class="text-sm sm:text-base md:text-lg tracking-[0.15em] leading-none opacity-90 uppercase footer-txt-phraseLine2" style="font-family: 'LePorsche', sans-serif;">
               {ui[lang]["footer.phraseLine2"]}
             </h4>
           </div>
 
 
           {/* Menú de Navegación */}
-          <nav class="flex flex-col gap-2 text-[var(--footer-text)] text-left font-black text-xs sm:text-sm tracking-widest font-montserrat transition-colors duration-500 pr-2 pt-2 sm:pt-6 md:pt-8 md:pl-6">
-            <a href="#" data-footer-nav="inicio" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+          <nav class="flex flex-col gap-3 text-[var(--footer-text)] text-right uppercase transition-colors duration-500 pt-2 sm:pt-4" style="font-family: 'Montserrat', sans-serif;">
+            <a href="#" data-footer-nav="inicio" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 text-sm sm:text-base md:text-lg font-extrabold tracking-[0.08em]">
               <span>{ui[lang]["nav.inicio"]}</span>
             </a>
-            <a href="#" data-footer-nav="proyectos" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+            <a href="#" data-footer-nav="proyectos" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 text-sm sm:text-base md:text-lg font-extrabold tracking-[0.08em]">
               <span>{ui[lang]["nav.portafolio"]}</span>
             </a>
-            <a href="#" data-footer-nav="equipo" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+            <a href="#" data-footer-nav="equipo" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 text-sm sm:text-base md:text-lg font-extrabold tracking-[0.08em]">
               <span>{ui[lang]["nav.equipo"]}</span>
             </a>
-            <a href="#" data-footer-nav="contacto" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 flex items-center">
+            <a href="#" data-footer-nav="contacto" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 text-sm sm:text-base md:text-lg font-extrabold tracking-[0.08em]">
               <span>{ui[lang]["nav.contacto"]}</span>
             </a>
           </nav>
@@ -154,17 +157,17 @@ const allTexts = JSON.stringify({
         </div>
 
 
-        {/* Bloque Medio: Ubicación */}
-        <p class="text-[var(--footer-text)] text-[9px] sm:text-xs font-semibold tracking-wider opacity-85 select-none transition-colors duration-500 font-montserrat z-10 mt-auto mb-auto py-2">
+        {/* ── Bloque Medio: Ubicación ── */}
+        <p class="text-[var(--footer-text)] text-[11px] sm:text-sm md:text-base tracking-[0.06em] opacity-85 select-none transition-colors duration-500 z-10 mt-4 italic" style="font-family: 'Montserrat', sans-serif; font-weight: 500;">
           Dolores Hidalgo, Guanajuato, México.
         </p>
        
-        {/* Bloque Inferior: Firma */}
-        <div class="text-[9px] sm:text-xs text-[var(--footer-text)]/80 font-bold tracking-wide select-none transition-colors duration-500 font-montserrat z-10 mt-auto">
-          <p>
-            <span class="footer-txt-designedBy">{ui[lang]["hero.designedBy"]}</span>
+        {/* ── Bloque Inferior: Firma (Centrada) ── */}
+        <div class="w-full text-center text-[var(--footer-text)]/80 select-none transition-colors duration-500 z-10 mt-auto pt-6" style="font-family: 'Montserrat', sans-serif;">
+          <p class="text-[10px] sm:text-xs md:text-sm tracking-[0.05em]">
+            <span class="font-medium footer-txt-designedBy">{ui[lang]["hero.designedBy"]}</span>
             {" "}
-            <span class="font-black tracking-wider text-[var(--footer-text)] footer-txt-brandName">{ui[lang]["hero.brandName"]}™</span>
+            <span class="font-black tracking-[0.12em] text-[var(--footer-text)] footer-txt-brandName">{ui[lang]["hero.brandName"]}™</span>
           </p>
         </div>
 
@@ -180,13 +183,13 @@ const allTexts = JSON.stringify({
 <style>
   /* 1. Variables de Color Base */
   #footer-section {
-    --footer-bg: #f5efe9;
+    --footer-bg: transparent;
     --footer-text: #e94e1b;
   }
 
 
   :global(.dark) #footer-section {
-    --footer-bg: #0f0f0f;
+    --footer-bg: transparent;
     --footer-text: #40f4b8;
   }
 
