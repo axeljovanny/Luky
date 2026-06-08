@@ -50,22 +50,22 @@ const allTexts = JSON.stringify({
     </button>
   </div>
 
-
-  {/* ═══ MARQUEE "LUCKY DUCKY" ═══ */}
+  {/* ═══ MARQUEE "LUCKY DUCKY" ═══ */}
   <div class="w-full overflow-hidden select-none pointer-events-none mb-8 sm:mb-10 z-10">
     <div class="flex w-[200%] animate-marquee-wrap">
      
       <div class="w-1/2 flex justify-center items-center flex-shrink-0">
-        <div class="glass-container rounded-[1.5rem] sm:rounded-[2rem] py-5 sm:py-7 px-12 sm:px-24 md:px-32 flex items-center justify-center relative overflow-hidden">
-          <h2 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[var(--footer-text)] tracking-[0.04em] leading-none uppercase z-10" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900;">
-            LUCKY DUCKY
+        <div class="glass-container rounded-[1.5rem] sm:rounded-[2rem] py-5 sm:py-6.5 px-8 sm:px-14 flex items-center justify-center relative overflow-hidden">
+          <h2 class="whitespace-nowrap text-[var(--footer-text)] tracking-[0.04em] leading-none uppercase z-10 translate-y-[0.02em]" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8.5vw, 9.5rem);">
+          LUCKY DUCKY
           </h2>
         </div>
       </div>
      
       <div class="w-1/2 flex justify-center items-center flex-shrink-0" aria-hidden="true">
-        <div class="glass-container rounded-[1.5rem] sm:rounded-[2rem] py-5 sm:py-7 px-12 sm:px-24 md:px-32 flex items-center justify-center relative overflow-hidden">
-          <h2 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[var(--footer-text)] tracking-[0.04em] leading-none uppercase z-10" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900;">
+        <div class="glass-container rounded-[1.5rem] sm:rounded-[2rem] py-5 sm:py-6.5 px-8 sm:px-14 flex items-center justify-center relative overflow-hidden">
+          <h2 class="whitespace-nowrap text-[var(--footer-text)] tracking-[0.04em] leading-none uppercase z-10 translate-y-[0.02em]" 
+          style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8.5vw, 9.5rem);">
             LUCKY DUCKY
           </h2>
         </div>
@@ -76,11 +76,11 @@ const allTexts = JSON.stringify({
 
 
   {/* ═══ BLOQUE INFERIOR: Redes + Tarjeta Principal ═══ */}
-  <div class="w-full max-w-7xl px-4 sm:px-8 z-10">
-    <div class="w-full flex flex-col lg:flex-row items-center lg:items-stretch gap-3 lg:gap-4">
+  <div class="w-full px-4 sm:px-8 lg:px-12 z-10">
+    <div class="w-full flex flex-col lg:flex-row items-stretch gap-3 lg:gap-4">
      
       {/* ── Grid de Redes Sociales ── */}
-      <div class="grid grid-cols-2 gap-2 sm:gap-3 w-[150px] sm:w-[230px] md:w-[250px] lg:w-[280px] select-none flex-shrink-0 h-fit">
+      <div class="grid grid-cols-2 gap-2 sm:gap-3 w-full lg:w-[400px] select-none flex-shrink-0 h-fit">
        
         <div class="pointer-events-none aspect-square w-full"></div>
        
@@ -127,18 +127,18 @@ const allTexts = JSON.stringify({
         <div class="w-full flex flex-col sm:flex-row justify-between items-start gap-6 z-10">
          
           {/* Titular */}
-          <div class="flex flex-col text-[var(--footer-text)] select-none transition-colors duration-500">
-            <h3 class="text-5xl sm:text-6xl md:text-7xl tracking-[0.03em] leading-[0.9] mb-2 footer-txt-phraseLine1" style="font-family: 'CyGrotesk-GrandDark', sans-serif; font-weight: 900;">
+          <div class="flex-1 flex flex-col text-[var(--footer-text)] select-none transition-colors duration-500">
+            <h3 class="footer-txt-phraseLine1 leading-[0.9] mb-0" style="font-family:'CyGrotesk-GrandDark'; font-weight:900; font-size: clamp(2.2rem, 5.2vw, 4.5rem); letter-spacing: 0.02em;">
               {ui[lang]["footer.phraseLine1"]}
             </h3>
-            <h4 class="text-sm sm:text-base md:text-lg tracking-[0.15em] leading-none opacity-90 uppercase footer-txt-phraseLine2" style="font-family: 'LePorsche', sans-serif;">
+            <h4 class="footer-txt-phraseLine2 leading-none uppercase mt-1.5" style="font-family:'LePorsche'; font-size: clamp(0.85rem, 2.05vw, 1.78rem); letter-spacing: 0.24em;"> 
               {ui[lang]["footer.phraseLine2"]}
             </h4>
           </div>
 
 
           {/* Menú de Navegación */}
-          <nav class="flex flex-col gap-3 text-[var(--footer-text)] text-right uppercase transition-colors duration-500 pt-2 sm:pt-4" style="font-family: 'Montserrat', sans-serif;">
+          <nav class="w-[180px] flex flex-col gap-3 text-[var(--footer-text)] text-left items-start uppercase transition-colors duration-500 pt-2 sm:pt-4" style="font-family: 'Montserrat', sans-serif;">
             <a href="#" data-footer-nav="inicio" class="hover:translate-x-1 hover:opacity-75 transition-all duration-300 text-sm sm:text-base md:text-lg font-extrabold tracking-[0.08em]">
               <span>{ui[lang]["nav.inicio"]}</span>
             </a>
@@ -158,7 +158,7 @@ const allTexts = JSON.stringify({
 
 
         {/* ── Bloque Medio: Ubicación ── */}
-        <p class="text-[var(--footer-text)] text-[11px] sm:text-sm md:text-base tracking-[0.06em] opacity-85 select-none transition-colors duration-500 z-10 mt-4 italic" style="font-family: 'Montserrat', sans-serif; font-weight: 500;">
+        <p class="text-[var(--footer-text)] text-[11px] sm:text-sm md:text-base tracking-[0.06em] opacity-85 select-none transition-colors duration-500 z-10 mt-4 not-italic" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-style: normal;">
           Dolores Hidalgo, Guanajuato, México.
         </p>
        
